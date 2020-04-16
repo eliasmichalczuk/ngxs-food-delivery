@@ -1,0 +1,24 @@
+{
+  "restaurants": [
+    {
+      "id": "1234556789",
+      "name": "Vila lanches",
+      "address": {
+        "street": "Rua Garçálias",
+        "number": "225",
+        "neightborhood": "Praça Irmã",
+        "city": "Aracetuaba"
+      }
+    },
+    {
+      "id": "55566233",
+      "name": "Comida alemã",
+      "address": {
+        "street": "Rua Azul",
+        "number": "2663",
+        "neightborhood": "",
+        "city": "Aracetuaba"
+      }
+    }
+  ]
+}
