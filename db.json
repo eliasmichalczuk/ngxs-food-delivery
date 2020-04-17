@@ -20,5 +20,37 @@
         "city": "Aracetuaba"
       }
     }
+  ],
+  "places": [
+    {
+      "city": "Joinville",
+      "country": "Brazil",
+      "id": "joinville"
+    },
+    {
+      "city": "Johanesburgo",
+      "country": "South Africa",
+      "id": "johanesburgo"
+    },
+    {
+      "city": "Manhattan",
+      "country": "USA",
+      "id": "manhattan"
+    },
+    {
+      "city": "東京",
+      "country": "Japan",
+      "id": "東京"
+    },
+    {
+      "city": "厦门",
+      "country": "China",
+      "id": "厦门"
+    },
+    {
+      "city": "Münster",
+      "country": "Germany",
+      "id": "munster"
+    }
   ]
 }

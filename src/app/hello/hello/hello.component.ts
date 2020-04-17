@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Place } from 'src/app/entities/place';
+import { RandomPlaceService } from 'src/app/services/places.service';
 
 @Component({
   selector: 'app-hello',
@@ -9,9 +10,11 @@ import { Place } from 'src/app/entities/place';
   styleUrls: ['./hello.component.sass']
 })
 export class HelloComponent implements OnInit {
+
   place: Observable<Place>;
   constructor(
-    private router: Router
+    private router: Router,
+    private randomPlaceService: RandomPlaceService
   ) {}
 
   ngOnInit() {
@@ -23,6 +26,6 @@ export class HelloComponent implements OnInit {
   }
 
   reroll() {
-    this.place = this.
+    this.place = this.randomPlaceService.randomPlace();
   }
 }

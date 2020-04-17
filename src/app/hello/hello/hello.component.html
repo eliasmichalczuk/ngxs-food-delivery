@@ -1,12 +1,15 @@
 
 <p></p>
 <div class="center">
-  <div class="introduction mat-display-3">Welcome to <mat-chip style="font-size: 40px;" color="primary" selected>NGXS</mat-chip> Best food app!</div>
+  <div class="introduction mat-display-3">Welcome to <mat-chip style="font-size: 40px;" color="primary" selected>NGXS</mat-chip> food delivery app!</div>
 
   <div class="start">
-    You live near... 
-    <div>{{place | async}}</div>
+    <p>You live near...</p> 
+    <div class="place" *ngIf="place | async as resolvedPlace">
+      <div>{{resolvedPlace.city}}</div>
+      <div>{{resolvedPlace.country}}</div>
+    </div>
   </div>
-  <button (click)="proceedToOrderMeal()">Yes!</button>
-  <button (click)="reroll()">Yes!</button>
+  <button mat-raised-button color="primary" style="margin-bottom: 10px;" (click)="proceedToOrderMeal()">Yes!</button>
+  <p><button mat-raised-button color="accent" (click)="reroll()">Nah... reroll</button></p>
 </div>

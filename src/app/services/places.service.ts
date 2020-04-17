@@ -1,16 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Place } from '../entities/place';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
-export class PlacesService {
+export class RandomPlaceService {
 
-  private url = 'http://locahost:3000/places';
+  private url = '/api/places';
 
   constructor(
     private http: HttpClient
   ) { }
 
   randomPlace() {
-    return this.http.get(this.url);
+    return this.http.get(this.url)
+      .pipe(map(places => this.onePlaceFrom(places as Place[])));
+  }
+
+  onePlaceFrom(places: Place[]) {
+    return places[Math.floor(Math.random() * places.length)];
   }
 }

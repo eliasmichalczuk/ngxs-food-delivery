@@ -1,3 +1,5 @@
 export interface Place {
-  name: string;
+  city: string;
+  country: string;
+  id: string;
 }
