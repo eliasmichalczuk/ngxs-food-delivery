@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
+import { MediumProfileCardModule } from '../shared/components/medium-profile-card/medium-profile-card.module';
+import { OrderMealStepperServiceService } from './services/order-meal-stepper-service.service';
 
 @NgModule({
   declarations: [ViewRestaurantComponent, OrderMealComponent],
@@ -20,7 +22,11 @@ import { MatChipsModule } from '@angular/material/chips';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatChipsModule
+    MatChipsModule,
+    MediumProfileCardModule
+  ],
+  providers: [
+    OrderMealStepperServiceService
   ]
 })
 export class OrderMealModule { }

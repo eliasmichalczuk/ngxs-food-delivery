@@ -1,10 +1,10 @@
-<mat-horizontal-stepper linear="true" #stepper>
+<mat-horizontal-stepper linear="true" #stepper class="bg-color">
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <div class="display">
         
         <div class="center">
-          <div class="introduction mat-display-2"><mat-chip style="font-size: 40px;" color="primary" selected>NGXS</mat-chip> restaurants near you</div>
+          <div class="introduction mat-display-2"><mat-chip style="font-size: 40px;" color="primary" selected>NGXS</mat-chip> restaurants near <em>you</em> </div>
         </div>
   
         <ng-template matStepLabel>Fill out your name</ng-template>

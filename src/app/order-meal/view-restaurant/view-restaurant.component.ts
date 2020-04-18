@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderMealStepperServiceService } from '../services/order-meal-stepper-service.service';
 
 @Component({
   selector: 'app-view-restaurant',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewRestaurantComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private stepperService: OrderMealStepperServiceService
+  ) { }
 
   ngOnInit(): void {
   }
