@@ -1,4 +1,4 @@
-import { RouterState } from './../state/router.state';
+import { AppState } from 'src/app/store/app.state';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,6 +18,7 @@ import { NgxsModule } from '@ngxs/store';
     MatChipsModule,
     MatButtonModule,
     MatStepperModule,
+    NgxsModule.forFeature([AppState])
   ],
   providers: [
     RandomPlaceService

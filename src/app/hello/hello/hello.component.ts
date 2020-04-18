@@ -17,7 +17,7 @@ export class HelloComponent implements OnInit {
 
   currentVisiblePlace$: Observable<Place>;
   selectedPlace: Place;
-  @Select(state => state.app.place) place$;
+  @Select() app$;
   // state: Observable<AppState>;
 
   constructor(
@@ -31,10 +31,7 @@ export class HelloComponent implements OnInit {
   }
 
   proceedToOrderMeal() {
-    // this.router.navigate(['/order-meal']);
     this.store.dispatch([
-      // new SetPlace(this.selectedPlace),
-      // new SetTest('OWARIMO'),
       new SetPlace(this.selectedPlace),
       new Navigate(['/order-meal'])
     ]);

@@ -1,5 +1,5 @@
 import { RouterState } from './store/router.state';
-import { AppState, PlaceState } from './store/app.state';
+import { AppState } from './store/app.state';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -22,7 +22,6 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
     HttpClientModule,
     NgxsModule.forRoot([
       AppState,
-      PlaceState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
