@@ -13,7 +13,7 @@ export class RandomPlaceService {
     private http: HttpClient
   ) { }
 
-  randomPlace() {
+  randomPlace(): Observable<Place> {
     return this.http.get(this.url)
       .pipe(map(places => this.onePlaceFrom(places as Place[])));
   }
