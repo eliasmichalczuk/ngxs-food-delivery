@@ -1,14 +1,13 @@
-import { SetPlace } from './../../state/app.actions';
+import { SetPlace, SetTest } from './../../store/app.actions';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Place } from 'src/app/entities/place';
 import { RandomPlaceService } from 'src/app/services/places.service';
-import { AppState } from 'src/app/state/app.state';
+import { AppState } from 'src/app/store/app.state';
 import { Store, Select } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
-import { Navigate } from 'src/app/state/router.state';
-
+import { Navigate } from '@ngxs/router-plugin';
 @Component({
   selector: 'app-hello',
   templateUrl: './hello.component.html',
@@ -16,9 +15,9 @@ import { Navigate } from 'src/app/state/router.state';
 })
 export class HelloComponent implements OnInit {
 
-  place$: Observable<Place>;
+  currentVisiblePlace$: Observable<Place>;
   selectedPlace: Place;
-  @Select() app$;
+  @Select(state => state.app.place) place$;
   // state: Observable<AppState>;
 
   constructor(
@@ -34,13 +33,15 @@ export class HelloComponent implements OnInit {
   proceedToOrderMeal() {
     // this.router.navigate(['/order-meal']);
     this.store.dispatch([
+      // new SetPlace(this.selectedPlace),
+      // new SetTest('OWARIMO'),
       new SetPlace(this.selectedPlace),
-      new Navigate('order-meal')
+      new Navigate(['/order-meal'])
     ]);
   }
 
   reroll() {
-    this.place$ = this.randomPlaceService.randomPlace()
+    this.currentVisiblePlace$ = this.randomPlaceService.randomPlace()
       .pipe(tap(place => this.selectedPlace = place));
   }
 }

@@ -5,7 +5,7 @@
 
   <div class="start">
     <p>You live near...</p> 
-    <div class="place" *ngIf="place$ | async as resolvedPlace">
+    <div class="place" *ngIf="currentVisiblePlace$ | async as resolvedPlace">
       <div>{{resolvedPlace.city}}</div>
       <div>{{resolvedPlace.country}}</div>
     </div>

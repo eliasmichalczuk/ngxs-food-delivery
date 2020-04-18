@@ -1,5 +1,5 @@
-import { RouterState } from './state/router.state';
-import { AppState } from './state/app.state';
+import { RouterState } from './store/router.state';
+import { AppState, PlaceState } from './store/app.state';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-
+import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 @NgModule({
   declarations: [
     AppComponent
@@ -21,10 +21,12 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
     BrowserAnimationsModule,
     HttpClientModule,
     NgxsModule.forRoot([
-      AppState
+      AppState,
+      PlaceState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot()
+    NgxsLoggerPluginModule.forRoot(),
+    NgxsRouterPluginModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

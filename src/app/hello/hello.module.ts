@@ -17,7 +17,7 @@ import { NgxsModule } from '@ngxs/store';
     HelloRoutingModule,
     MatChipsModule,
     MatButtonModule,
-    MatStepperModule
+    MatStepperModule,
   ],
   providers: [
     RandomPlaceService
