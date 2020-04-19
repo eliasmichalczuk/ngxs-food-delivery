@@ -15,12 +15,20 @@ export class OrderMealStepperServiceService {
     return this.stepperForms.get('stepOne') as FormGroup;
   }
 
+  get stepTwoForm() {
+    return this.stepperForms.get('stepTwo') as FormGroup;
+  }
+
+
   constructor(
     private formBuilder: FormBuilder
   ) {
     this.stepperForms = this.formBuilder.group({
       stepOne: this.formBuilder.group({
         selectedRestaurantId: ['', Validators.required]
+      }),
+      stepTwo: this.formBuilder.group({
+        dishes: [[], [Validators.required, Validators.min(1)]]
       })
     });
   }

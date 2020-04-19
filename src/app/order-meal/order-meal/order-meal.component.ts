@@ -1,6 +1,10 @@
+import { GetMenuByRestauranteIdService } from './../../services/get-menu-by-restaurante-id.service';
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OrderMealStepperServiceService } from '../services/order-meal-stepper-service.service';
+import { Select, Store } from '@ngxs/store';
+import { Restaurant } from 'src/app/entities/restaurant';
 
 @Component({
   selector: 'app-order-meal',
@@ -8,20 +12,28 @@ import { OrderMealStepperServiceService } from '../services/order-meal-stepper-s
   styleUrls: ['./order-meal.component.sass']
 })
 export class OrderMealComponent implements OnInit {
-  secondFormGroup: FormGroup;
 
   get stepOneForm() {
     return this.stepperService.stepOneForm;
   }
 
+  get stepTwoForm() {
+    return this.stepperService.stepTwoForm;
+  }
+
+  @Select(state => state.ongoingOrder.restaurant) restaurant$: Observable<Restaurant>;
+
   constructor(
-    private formBuilder: FormBuilder,
-    private stepperService: OrderMealStepperServiceService
+    private stepperService: OrderMealStepperServiceService,
+    private store: Store,
+    private getMenu: GetMenuByRestauranteIdService
   ) {}
 
   ngOnInit() {
-    this.secondFormGroup = this.formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
+    this.selectedRestaurant();
+    this.getMenu.get('1234556789').subscribe(res => console.log(res));
+  }
+
+  selectedRestaurant() {
   }
 }

@@ -37,6 +37,18 @@
       }
     }
   ],
+  "menus": [
+    {
+      "id": "22312323",
+      "restaurantId": "1234556789",
+      "dishes": [
+        {
+          "id": "312321323",
+          "name": "Hot Dogão"
+        }
+      ]
+    }
+  ],
   "places": [
     {
       "city": "Joinville",

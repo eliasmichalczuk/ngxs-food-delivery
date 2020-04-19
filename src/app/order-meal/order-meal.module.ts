@@ -17,9 +17,11 @@ import { NgxsModule } from '@ngxs/store';
 import { AppState } from '../store/app.state';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { ViewMenuComponent } from './view-menu/view-menu.component';
+import { GetMenuByRestauranteIdService } from '../services/get-menu-by-restaurante-id.service';
 
 @NgModule({
-  declarations: [ViewRestaurantComponent, OrderMealComponent],
+  declarations: [ViewRestaurantComponent, OrderMealComponent, ViewMenuComponent],
   imports: [
     CommonModule,
     OrderMealRoutingModule,
@@ -39,7 +41,8 @@ import { MatButtonModule } from '@angular/material/button';
   ],
   providers: [
     OrderMealStepperServiceService,
-    GetAllRestaurantService
+    GetAllRestaurantService,
+    GetMenuByRestauranteIdService
   ]
 })
 export class OrderMealModule { }

@@ -15,16 +15,24 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your address</ng-template>
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
-      </mat-form-field>
+  <mat-step [stepControl]="stepTwoForm">
+    <form [formGroup]="stepTwoForm">
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <div class="display">
+        
+          <div class="center" *ngIf="restaurant$ | async as restaurant">
+            <div class="introduction mat-display-2 font-style">
+              <div class="uppercase">{{restaurant.name | uppercase}}</div> </div>
+          </div>
+          <app-view-menu></app-view-menu>
+
+          <button mat-raised-button matStepperNext
+            class="end-of-page"
+            color="primary">Next</button>
+          <button mat-raised-button matStepperPrevious
+            class="end-of-page"
+            color="primary">Back</button>
+        </div>
       </div>
     </form>
   </mat-step>
