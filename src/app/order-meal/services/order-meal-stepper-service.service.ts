@@ -2,18 +2,27 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CreateOrder } from 'src/app/entities/create-order';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Injectable()
 export class OrderMealStepperServiceService {
-  private dataFn: Array<() => void> = [() => {
-  }, () => {
-  }];
+  private dataFn: Array<() => void> = [() => {}, () => {}];
   private forms: Array<() => boolean> = [];
   private orderData: CreateOrder = CreateOrder.empty();
+  private stepperForms: FormGroup;
+
+  get stepOneForm() {
+    return this.stepperForms.get('stepOne') as FormGroup;
+  }
 
   constructor(
-    private http: HttpClient
+    private formBuilder: FormBuilder
   ) {
+    this.stepperForms = this.formBuilder.group({
+      stepOne: this.formBuilder.group({
+        selectedRestaurantId: ['', Validators.required]
+      })
+    });
   }
 
   addFormValidation(validation: () => boolean, stepperPosition: number) {

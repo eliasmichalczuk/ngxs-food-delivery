@@ -1,20 +1,17 @@
 <mat-horizontal-stepper linear="true" #stepper class="bg-color">
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
+  <mat-step [stepControl]="stepOneForm">
+    <form [formGroup]="stepOneForm">
       <div class="display">
         
         <div class="center">
-          <div class="introduction mat-display-2"><mat-chip style="font-size: 40px;" color="primary" selected>NGXS</mat-chip> restaurants near <em>you</em> </div>
+          <div class="introduction mat-display-2 font-style">
+            <mat-chip class="font-style" color="primary" selected>NGXS</mat-chip> restaurants near <em>you</em> </div>
         </div>
-  
-        <ng-template matStepLabel>Fill out your name</ng-template>
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperNext>Next</button>
-        </div>
+          <app-view-restaurant></app-view-restaurant>
+        <button mat-raised-button matStepperNext
+          class="end-of-page"
+          color="primary">
+          Next</button>
       </div>
     </form>
   </mat-step>
@@ -23,8 +20,7 @@
       <ng-template matStepLabel>Fill out your address</ng-template>
       <mat-form-field>
         <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-               required>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>

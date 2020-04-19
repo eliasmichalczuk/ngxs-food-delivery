@@ -1,1 +1,8 @@
-<p>medium-profile-card works!</p>
+<mat-card class="mat-card-clickable" [ngClass]="{'selected': selected}">
+  <mat-card-header class="bigger">
+    <div mat-card-avatar class="header-image"><img src="{{restaurant.image}}" class="header-image" alt=""></div>
+    <mat-card-title>{{restaurant.name}}</mat-card-title>
+    <mat-card-subtitle>{{restaurant.style}}</mat-card-subtitle>
+    <mat-card-subtitle class="rating" [ngClass]="{'espetacular-rating': espetacularRating()}">{{restaurant.rating}}</mat-card-subtitle>
+  </mat-card-header>
+</mat-card>

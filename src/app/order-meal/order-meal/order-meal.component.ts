@@ -8,8 +8,11 @@ import { OrderMealStepperServiceService } from '../services/order-meal-stepper-s
   styleUrls: ['./order-meal.component.sass']
 })
 export class OrderMealComponent implements OnInit {
-  firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+
+  get stepOneForm() {
+    return this.stepperService.stepOneForm;
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -17,9 +20,6 @@ export class OrderMealComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.firstFormGroup = this.formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
     this.secondFormGroup = this.formBuilder.group({
       secondCtrl: ['', Validators.required]
     });

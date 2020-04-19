@@ -6,8 +6,16 @@
       "address": {
         "street": "Rua Garçálias",
         "number": "225",
-        "neightborhood": "Praça Irmã",
+        "neighborhood": "Praça Irmã",
         "city": "Aracetuaba"
+      },
+      "style": "Street food",
+      "image": "https://media-cdn.tripadvisor.com/media/photo-s/15/03/79/e3/otto-s-anatolian-food.jpg",
+      "rating": "4.8",
+      "user": {
+        "name": "Carlos Antônio",
+        "id": "2233534534536",
+        "review": "Excellent food, staff and Location! Loved it!"
       }
     },
     {
@@ -16,8 +24,16 @@
       "address": {
         "street": "Rua Azul",
         "number": "2663",
-        "neightborhood": "",
+        "neighborhood": "",
         "city": "Aracetuaba"
+      },
+      "style": "German Food",
+      "image": "https://thatanxioustraveller.com/wp-content/uploads/2018/05/germany_sauerkraut_1.jpg",
+      "rating": "4.2",
+      "user": {
+        "name": "John Food Reviewer",
+        "id": "11123344555",
+        "review": "Oh boy, the food was amazing!"
       }
     }
   ],

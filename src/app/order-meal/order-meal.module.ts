@@ -1,3 +1,4 @@
+import { OngoingOrder } from './store/order.actions';
 import { ViewRestaurantComponent } from './view-restaurant/view-restaurant.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -11,6 +12,11 @@ import {MatInputModule} from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MediumProfileCardModule } from '../shared/components/medium-profile-card/medium-profile-card.module';
 import { OrderMealStepperServiceService } from './services/order-meal-stepper-service.service';
+import { GetAllRestaurantService } from '../services/get-all-restaurant.service';
+import { NgxsModule } from '@ngxs/store';
+import { AppState } from '../store/app.state';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [ViewRestaurantComponent, OrderMealComponent],
@@ -23,10 +29,17 @@ import { OrderMealStepperServiceService } from './services/order-meal-stepper-se
     MatFormFieldModule,
     MatInputModule,
     MatChipsModule,
-    MediumProfileCardModule
+    MatButtonModule,
+    MatCardModule,
+    MediumProfileCardModule,
+    NgxsModule.forFeature([
+      AppState,
+      OngoingOrder
+    ])
   ],
   providers: [
-    OrderMealStepperServiceService
+    OrderMealStepperServiceService,
+    GetAllRestaurantService
   ]
 })
 export class OrderMealModule { }

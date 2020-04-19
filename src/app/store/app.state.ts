@@ -1,9 +1,6 @@
 import { Action, State, StateContext, StateToken } from '@ngxs/store';
-
-import { Place } from '../entities/place';
 import { SetPlace, SetTest } from './app.actions';
 import { Injectable } from '@angular/core';
-import { state } from '@angular/animations';
 
 // export interface PlaceStateModel {
 //   city: string;
@@ -41,13 +38,11 @@ export interface AppStateModel {
     id: string,
     status: 'PENDING' | 'CONFIRMED' | 'DECLINED'
   };
-  // place: Place;
   place: {
     city: string;
     country: string;
     id: string;
   };
-  test: string;
 }
 
 const APP_STATE_TOKEN = new StateToken<AppStateModel>('app');
@@ -63,7 +58,6 @@ const APP_STATE_TOKEN = new StateToken<AppStateModel>('app');
       id: Math.floor(Math.random() * 20000).toString(),
       status: 'PENDING'
     },
-    test: '',
     place: {
       city: '',
       country: '',
@@ -73,17 +67,14 @@ const APP_STATE_TOKEN = new StateToken<AppStateModel>('app');
 })
 @Injectable()
 export class AppState {
-  @Action(SetTest) setTest({ patchState }: StateContext<AppStateModel>, { payload }: SetTest) {
-    patchState({ test: payload });
-  }
 
-  @Action(SetPlace) setPlace(ctx: StateContext<AppStateModel>, payload: SetPlace) {
+  @Action(SetPlace) setPlace(ctx: StateContext<AppStateModel>, { payload }: SetPlace) {
     ctx.setState({
       ...ctx.getState(),
       place: {
-        city: payload.payload.city,
-        country: payload.payload.country,
-        id: payload.payload.id
+        city: payload.city,
+        country: payload.country,
+        id: payload.id
       }
     });
   }

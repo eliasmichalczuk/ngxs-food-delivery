@@ -1,1 +1,27 @@
-<p>view-restaurant works!</p>
+<div class="line-height">
+  <ng-container *ngIf="restaurants">
+    <ng-container *ngFor="let res of restaurants">
+      <app-medium-profile-card class="each-card"
+        (click)="select(res)"
+        [selected]="restaurantComparer(res)"
+        [restaurant]="res">
+      </app-medium-profile-card>
+      <div *ngIf="restaurantComparer(res) && isVeingViewed">
+
+        <mat-card class="details-card">
+          <mat-card-header>
+            <div mat-card-avatar class="header-image"><img src="{{selected.image}}" class="header-image" alt=""></div>
+            <mat-card-title>{{selected.name}}</mat-card-title>
+            <mat-card-subtitle>{{selected.style}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-header class="margin-between-headers">
+            <mat-card-title>Review</mat-card-title>
+            <mat-card-subtitle>{{selected.user.name}}</mat-card-subtitle>
+            <mat-card-subtitle class="font-user-review">"{{selected.user.review}}"</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
