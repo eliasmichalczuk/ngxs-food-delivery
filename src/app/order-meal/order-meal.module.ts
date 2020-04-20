@@ -1,3 +1,4 @@
+import { DishDetailsModalModule } from './../shared/components/dish-details-modal/dish-details-modal.module';
 import { OngoingOrder } from './store/order.actions';
 import { ViewRestaurantComponent } from './view-restaurant/view-restaurant.component';
 import { NgModule } from '@angular/core';
@@ -20,9 +21,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { ViewMenuComponent } from './view-menu/view-menu.component';
 import { GetMenuByRestauranteIdService } from '../services/get-menu-by-restaurante-id.service';
 import { MediumDishCardModule } from '../shared/components/medium-dish-card/medium-dish-card.module';
+import { BagComponent } from './bag/bag.component';
+import { CompleteOrderService } from './services/complete-order.service';
 
 @NgModule({
-  declarations: [ViewRestaurantComponent, OrderMealComponent, ViewMenuComponent],
+  declarations: [ViewRestaurantComponent, OrderMealComponent, ViewMenuComponent, BagComponent],
   imports: [
     CommonModule,
     OrderMealRoutingModule,
@@ -36,6 +39,7 @@ import { MediumDishCardModule } from '../shared/components/medium-dish-card/medi
     MatCardModule,
     MediumProfileCardModule,
     MediumDishCardModule,
+    DishDetailsModalModule,
     NgxsModule.forFeature([
       AppState,
       OngoingOrder
@@ -44,7 +48,8 @@ import { MediumDishCardModule } from '../shared/components/medium-dish-card/medi
   providers: [
     OrderMealStepperServiceService,
     GetAllRestaurantService,
-    GetMenuByRestauranteIdService
+    GetMenuByRestauranteIdService,
+    CompleteOrderService
   ]
 })
 export class OrderMealModule { }

@@ -1,0 +1,10 @@
+<div mat-dialog-content>
+  <div>{{data.name}}</div>
+  <div>{{quantity}}</div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button (click)="less()">-</button>
+  <button mat-button (click)="more()">+</button>
+  <button mat-button  (click)="confirm()" cdkFocusInitial>Add to bag!</button>
+</div>

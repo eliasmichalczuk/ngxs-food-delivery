@@ -4,6 +4,7 @@
     <div class="card-deck-container">
       <app-medium-dish-card
         *ngFor="let dish of awaitedDishes"
+        (click)="select(dish)"
         class="each-card"
         [dish]="dish">
       </app-medium-dish-card>

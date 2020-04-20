@@ -1,0 +1,29 @@
+<div class="sidenav"> 
+  <ng-container *ngIf="dishes$ | async as awaitedDishes">
+    <div *ngIf="awaitedDishes.length; else emptyBag">
+      <div class="header" *ngIf="restaurant$ | async as restaurant">
+        <p class="underlighted-text">Your order on</p>
+        <strong class="restaurant-name">{{restaurant.name}}</strong>
+      </div>
+      <div *ngFor="let dish of awaitedDishes" class="margin-top">
+        <div class="division"></div>
+        <div class="margin-top margin-bottom">
+          <div class="">{{dish.quantity}}x {{dish.name | uppercase}}</div>
+          <div class="underlighted-text margin">{{dish.description}}</div>
+          <div><h3 class="edit-button" cdkFocusInitial>Edit</h3>
+            <h3 class="remove-button margin-left" (click)="remove(dish)">Remove</h3></div>
+        </div>
+      </div>
+      <div class="division"></div>
+      <div class="total subtotal-texts-display float-text-value">
+        <div class="underlighted-text margin-8"><div>Subtotal</div> <div>{{dishesSubtotal$ | async}}</div></div>
+        <div class="underlighted-text margin-8"><div>Delivery fee</div> <div>{{deliveryFee$ | async}}</div></div>
+        <div class="underlighted-text margin-8 black"><div>Total</div> <div>{{dishesTotal$ | async}}</div></div>
+      </div>
+      <div class="division"></div>
+    </div>
+    <ng-template #emptyBag>
+      <div class="center">Your bag is empty!</div>
+    </ng-template>
+  </ng-container>
+</div>
