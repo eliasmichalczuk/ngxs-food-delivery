@@ -23,6 +23,7 @@ import { GetMenuByRestauranteIdService } from '../services/get-menu-by-restauran
 import { MediumDishCardModule } from '../shared/components/medium-dish-card/medium-dish-card.module';
 import { BagComponent } from './bag/bag.component';
 import { CompleteOrderService } from './services/complete-order.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [ViewRestaurantComponent, OrderMealComponent, ViewMenuComponent, BagComponent],
@@ -43,7 +44,8 @@ import { CompleteOrderService } from './services/complete-order.service';
     NgxsModule.forFeature([
       AppState,
       OngoingOrder
-    ])
+    ]),
+    FlexLayoutModule
   ],
   providers: [
     OrderMealStepperServiceService,

@@ -1,4 +1,6 @@
-<div class="sidenav"> 
+<div class="sidenav" fxFlex.lg="33.333%"
+fxFlex.md="20%"
+fxFlex.lt-sm="0%"> 
   <ng-container *ngIf="dishes$ | async as awaitedDishes">
     <div *ngIf="awaitedDishes.length; else emptyBag">
       <div class="header" *ngIf="restaurant$ | async as restaurant">

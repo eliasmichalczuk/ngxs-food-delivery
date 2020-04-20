@@ -18,13 +18,15 @@
   <mat-step [stepControl]="stepTwoForm">
     <form [formGroup]="stepTwoForm">
       <div>
-        <div class="display">
+        <div class="step-2-display" fxLayout="row" fxLayout.sm="column">
           <div class="center" *ngIf="restaurant$ | async as restaurant">
             <div class="introduction mat-display-2 font-style">
               <div class="uppercase">{{restaurant.name | uppercase}}</div> </div>
           </div>
-          <app-view-menu></app-view-menu>
-          <app-bag></app-bag>
+          <app-view-menu>
+          </app-view-menu>
+          <app-bag>
+          </app-bag>
 
           <!-- <button mat-raised-button matStepperNext
             class="end-of-page"
