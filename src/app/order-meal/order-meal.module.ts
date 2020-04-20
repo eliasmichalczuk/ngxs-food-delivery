@@ -19,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ViewMenuComponent } from './view-menu/view-menu.component';
 import { GetMenuByRestauranteIdService } from '../services/get-menu-by-restaurante-id.service';
+import { MediumDishCardModule } from '../shared/components/medium-dish-card/medium-dish-card.module';
 
 @NgModule({
   declarations: [ViewRestaurantComponent, OrderMealComponent, ViewMenuComponent],
@@ -34,6 +35,7 @@ import { GetMenuByRestauranteIdService } from '../services/get-menu-by-restauran
     MatButtonModule,
     MatCardModule,
     MediumProfileCardModule,
+    MediumDishCardModule,
     NgxsModule.forFeature([
       AppState,
       OngoingOrder

@@ -14,7 +14,7 @@ export class GetMenuByRestauranteIdService {
     private http: HttpClient
   ) { }
 
-  get(id: string): Observable<Menu> {
-    return this.http.get(this.url.replace('id', id)) as Observable<Menu>;
+  get(id: string): Observable<Menu[]> {
+    return this.http.get(this.url.replace('id', id)) as Observable<Menu[]>;
   }
 }

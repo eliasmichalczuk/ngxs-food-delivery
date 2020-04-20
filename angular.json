@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "ngxs-food-app"
+  "defaultProject": "ngxs-food-app",
+  "cli": {
+    "analytics": false
+  }
 }

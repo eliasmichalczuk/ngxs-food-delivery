@@ -19,7 +19,6 @@
     <form [formGroup]="stepTwoForm">
       <div>
         <div class="display">
-        
           <div class="center" *ngIf="restaurant$ | async as restaurant">
             <div class="introduction mat-display-2 font-style">
               <div class="uppercase">{{restaurant.name | uppercase}}</div> </div>

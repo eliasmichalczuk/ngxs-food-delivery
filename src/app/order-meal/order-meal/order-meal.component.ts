@@ -30,10 +30,6 @@ export class OrderMealComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.selectedRestaurant();
-    this.getMenu.get('1234556789').subscribe(res => console.log(res));
   }
 
-  selectedRestaurant() {
-  }
 }
