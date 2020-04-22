@@ -16,3 +16,18 @@ export class RemoveItemFromBag {
   static readonly type = '[view-menu.component] RemoveItemFromToBag';
   constructor(public payload: ItemOnBag) { }
 }
+
+export class ConfirmOrder {
+  static readonly type = '[bag.component] ConfirmOrder';
+  constructor() { }
+}
+
+export class OrderSuccess {
+  static readonly type = '[order.actions] OrderSuccess';
+  constructor(public orderId: string) { }
+}
+
+export class OrderFailed {
+  static readonly type = '[order.actions] OrderFailed';
+  constructor(public orderId: string) { }
+}

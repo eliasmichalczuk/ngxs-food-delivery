@@ -9,7 +9,7 @@
         <div class="division"></div>
         <div class="margin-top margin-bottom">
           <div class="">{{dish.quantity}}x {{dish.name | uppercase}}</div>
-          <div class="underlighted-text margin">{{dish.description}}</div>
+          <div class="underlighted-text margin-description">{{dish.description}}</div>
           <div><h3 class="edit-button" cdkFocusInitial>Edit</h3>
             <h3 class="remove-button margin-left" (click)="remove(dish)">Remove</h3></div>
         </div>
@@ -21,6 +21,7 @@
         <div class="underlighted-text margin-8 black"><div>Total</div> <div>{{dishesTotal$ | async}}</div></div>
       </div>
       <div class="division"></div>
+      <button mat-raised-button color="warn" class="complete-order" (click)="confirmOrder()">Complete order</button>
     </div>
     <ng-template #emptyBag>
       <div class="center">Your bag is empty!</div>

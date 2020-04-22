@@ -1,10 +1,16 @@
+import { AppStateModel } from './../../store/app.state';
+import { CompleteOrderService } from './../services/complete-order.service';
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext, StateToken } from '@ngxs/store';
+import { Action, State, StateContext, StateToken, Store } from '@ngxs/store';
 
 import { Restaurant } from './../../entities/restaurant';
-import { SetRestaurant, AddItemToBag, RemoveItemFromBag } from './order.state';
+import { SetRestaurant, AddItemToBag, ConfirmOrder, OrderSuccess, OrderFailed, RemoveItemFromBag } from './order.state';
+import { CompleteOrderDto } from 'src/app/entities/complete-order';
+import { tap } from 'rxjs/operators';
 
 export interface OngoingOrderModel {
+  id: number;
+  status: 'PENDING' | 'CONFIRMED' | 'DECLINED' | 'NONE';
   restaurant: {
     id: string;
     name: string;
@@ -33,6 +39,8 @@ const APP_STATE_TOKEN = new StateToken<OngoingOrderModel>('ongoingOrder');
 @State<OngoingOrderModel>({
   name: APP_STATE_TOKEN,
   defaults: {
+    id: Math.floor(Math.random() * 20000),
+    status: 'NONE',
     dishes: [],
     restaurant: {
       id: '',
@@ -51,6 +59,12 @@ const APP_STATE_TOKEN = new StateToken<OngoingOrderModel>('ongoingOrder');
 })
 @Injectable()
 export class OngoingOrder {
+
+  constructor(
+    private confirmOrderService: CompleteOrderService,
+    private store: Store
+  ) { }
+
   @Action(SetRestaurant) SetRestaurant(ctx: StateContext<OngoingOrderModel>, { payload }: SetRestaurant) {
     ctx.setState({
       ...ctx.getState(),
@@ -84,5 +98,14 @@ export class OngoingOrder {
         ...items
       ]
     });
+  }
+
+  @Action(ConfirmOrder) ConfirmOrder({ dispatch, patchState }: StateContext<OngoingOrderModel>) {
+    patchState({status: 'PENDING'});
+    const dishes = this.store.selectSnapshot<any>((state: OngoingOrderModel) => state.dishes);
+    const orderId = this.store.selectSnapshot<any>((state: OngoingOrderModel) => state.id);
+    const userId = this.store.selectSnapshot<any>(state => state.app.user.name);
+    return this.confirmOrderService.post(new CompleteOrderDto(userId, dishes as any))
+      .pipe(tap(success => (success ? dispatch(new OrderSuccess(orderId)) : dispatch(new OrderFailed(orderId)))));
   }
 }

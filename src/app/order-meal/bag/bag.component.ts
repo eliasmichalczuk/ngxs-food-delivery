@@ -3,7 +3,7 @@ import { Store, Select } from '@ngxs/store';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, forkJoin, concat, merge, zip, combineLatest } from 'rxjs';
 import { Restaurant } from 'src/app/entities/restaurant';
-import { RemoveItemFromBag } from '../../order-meal/store/order.state';
+import { RemoveItemFromBag, ConfirmOrder } from '../../order-meal/store/order.state';
 import { map, concatMap } from 'rxjs/operators';
 
 @Component({
@@ -55,5 +55,11 @@ export class BagComponent implements OnInit {
 
   deliveryFee() {
     this.deliveryFee$ = this.dishes$.pipe(map(items => items[0].price * 0.6));
+  }
+
+  confirmOrder() {
+    this.store.dispatch([
+      new ConfirmOrder()
+    ]);
   }
 }

@@ -35,8 +35,8 @@ export interface AppStateModel {
     phone: string
   };
   order: {
-    id: string,
-    status: 'PENDING' | 'CONFIRMED' | 'DECLINED'
+    id: number,
+    status: 'PENDING' | 'CONFIRMED' | 'DECLINED' | 'NONE'
   };
   place: {
     city: string;
@@ -55,8 +55,8 @@ const APP_STATE_TOKEN = new StateToken<AppStateModel>('app');
       phone: ''
     },
     order: {
-      id: Math.floor(Math.random() * 20000).toString(),
-      status: 'PENDING'
+      id: 0,
+      status: 'NONE'
     },
     place: {
       city: '',

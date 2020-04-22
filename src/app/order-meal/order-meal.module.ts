@@ -41,8 +41,8 @@ import { CompleteOrderService } from './services/complete-order.service';
     MediumDishCardModule,
     DishDetailsModalModule,
     NgxsModule.forFeature([
-      AppState,
-      OngoingOrder
+      OngoingOrder,
+      AppState
     ])
   ],
   providers: [
