@@ -1,5 +1,10 @@
 import { Dish } from './../../entities/dish';
 export class ItemOnBag {
+  private _bagId: number;
+  get bagId() {
+    return this._bagId;
+  }
+
   constructor(
     public id: string,
     public name: string,

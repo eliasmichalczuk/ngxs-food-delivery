@@ -1,16 +1,17 @@
 import { AppStateModel } from './../../store/app.state';
 import { CompleteOrderService } from './../services/complete-order.service';
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext, StateToken, Store } from '@ngxs/store';
+import { Action, State, StateContext, StateToken, Store, Selector } from '@ngxs/store';
 
 import { Restaurant } from './../../entities/restaurant';
-import { SetRestaurant, AddItemToBag, ConfirmOrder, OrderSuccess, OrderFailed, RemoveItemFromBag } from './order.state';
+import { SetRestaurant, AddItemToBag, ConfirmOrder, OrderSuccess, OrderFailed, RemoveItemFromBag, OrderPending } from './order.state';
 import { CompleteOrderDto } from 'src/app/entities/complete-order';
-import { tap } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
+import { SnackShowErrorService } from 'src/app/shared/components/consumables/snack-show-error/snack-show-error.service';
 
 export interface OngoingOrderModel {
   id: number;
-  status: 'PENDING' | 'CONFIRMED' | 'DECLINED' | 'NONE';
+  status: 'PENDING' | 'SUCCESS' | 'DECLINED' | 'NONE';
   restaurant: {
     id: string;
     name: string;
@@ -62,8 +63,14 @@ export class OngoingOrder {
 
   constructor(
     private confirmOrderService: CompleteOrderService,
-    private store: Store
+    private store: Store,
+    private handler: SnackShowErrorService
   ) { }
+
+  @Selector()
+  static status(state: OngoingOrderModel): string {
+    return state.status;
+  }
 
   @Action(SetRestaurant) SetRestaurant(ctx: StateContext<OngoingOrderModel>, { payload }: SetRestaurant) {
     ctx.setState({
@@ -90,8 +97,7 @@ export class OngoingOrder {
   @Action(RemoveItemFromBag) RemoveItemFromBag(ctx: StateContext<OngoingOrderModel>, { payload }: AddItemToBag) {
     const items = ctx.getState().dishes;
     items.splice(
-    // tslint:disable-next-line:no-string-literal
-      items.findIndex(item => item.id === payload.id && item.bagId === payload['bagId']), 1);
+      items.findIndex(item => item.id === payload.id && item.bagId === payload.bagId), 1);
     ctx.setState({
       ...ctx.getState(),
       dishes: [
@@ -100,12 +106,26 @@ export class OngoingOrder {
     });
   }
 
-  @Action(ConfirmOrder) ConfirmOrder({ dispatch, patchState }: StateContext<OngoingOrderModel>) {
-    patchState({status: 'PENDING'});
-    const dishes = this.store.selectSnapshot<any>((state: OngoingOrderModel) => state.dishes);
-    const orderId = this.store.selectSnapshot<any>((state: OngoingOrderModel) => state.id);
-    const userId = this.store.selectSnapshot<any>(state => state.app.user.name);
-    return this.confirmOrderService.post(new CompleteOrderDto(userId, dishes as any))
-      .pipe(tap(success => (success ? dispatch(new OrderSuccess(orderId)) : dispatch(new OrderFailed(orderId)))));
+  @Action(ConfirmOrder) ConfirmOrder(ctx: StateContext<OngoingOrderModel>) {
+    ctx.patchState({status: 'PENDING'});
+    const state = ctx.getState();
+    const dishes = state.dishes;
+    const orderId = state.id;
+    const userId = this.store.selectSnapshot<any>(global => global.app.user.name);
+    ctx.dispatch([new OrderPending(state.id)]);
+    this.confirmOrderService.post(new CompleteOrderDto(userId, dishes as any))
+      .subscribe(e => ctx.dispatch(new OrderSuccess(orderId)),
+        err => {
+          this.handler.error(err);
+          return ctx.dispatch(new OrderFailed(orderId));
+        });
+  }
+
+  @Action(OrderSuccess) OrderSuccess({ patchState }: StateContext<OngoingOrderModel>) {
+    patchState({status: 'SUCCESS'});
+  }
+
+  @Action(OrderFailed) OrderDeclined({ patchState }: StateContext<OngoingOrderModel>) {
+    patchState({status: 'DECLINED'});
   }
 }

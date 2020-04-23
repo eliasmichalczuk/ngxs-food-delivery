@@ -1,4 +1,3 @@
-import { Dish } from './../../entities/dish';
 import { Restaurant } from 'src/app/entities/restaurant';
 import { ItemOnBag } from '../entities/item-on-bag';
 
@@ -21,13 +20,16 @@ export class ConfirmOrder {
   static readonly type = '[bag.component] ConfirmOrder';
   constructor() { }
 }
-
+export class OrderPending {
+  static readonly type = '[order.actions] OrderPending';
+  constructor(public orderId: number) { }
+}
 export class OrderSuccess {
   static readonly type = '[order.actions] OrderSuccess';
-  constructor(public orderId: string) { }
+  constructor(public orderId: number) { }
 }
 
 export class OrderFailed {
   static readonly type = '[order.actions] OrderFailed';
-  constructor(public orderId: string) { }
+  constructor(public orderId: number) { }
 }

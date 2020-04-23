@@ -5,6 +5,7 @@ import { Observable, forkJoin, concat, merge, zip, combineLatest } from 'rxjs';
 import { Restaurant } from 'src/app/entities/restaurant';
 import { RemoveItemFromBag, ConfirmOrder } from '../../order-meal/store/order.state';
 import { map, concatMap } from 'rxjs/operators';
+import { OngoingOrder } from '../store/order.actions';
 
 @Component({
   selector: 'app-bag',
@@ -15,10 +16,12 @@ import { map, concatMap } from 'rxjs/operators';
 export class BagComponent implements OnInit {
 
   @Select(state => state.ongoingOrder.restaurant) restaurant$: Observable<Restaurant>;
+  @Select(OngoingOrder.status) status$: Observable<string>;
   @Select(state => state.ongoingOrder.dishes) dishes$: Observable<ItemOnBag[]>;
   dishesTotal$: Observable<number>;
   deliveryFee$: Observable<number>;
   dishesSubtotal$: Observable<number>;
+  currency$: Observable<string>;
 
   constructor(
     private store: Store
@@ -55,6 +58,7 @@ export class BagComponent implements OnInit {
 
   deliveryFee() {
     this.deliveryFee$ = this.dishes$.pipe(map(items => items[0].price * 0.6));
+    this.currency$ = this.dishes$.pipe(map(items => items[0].currency));
   }
 
   confirmOrder() {

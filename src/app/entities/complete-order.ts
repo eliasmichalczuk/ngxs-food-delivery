@@ -3,7 +3,7 @@ export class CompleteOrderDto {
   constructor(
     public userId: string,
     public items: OrderItemDto[]
-  ) { 
+  ) {
     this.date = new Date();
   }
 }

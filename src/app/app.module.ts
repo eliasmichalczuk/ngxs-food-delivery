@@ -11,12 +11,15 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+import { SnackShowErrorModule } from './shared/components/consumables/snack-show-error/snack-show-error.module';
+import { SnackShowErrorService } from './shared/components/consumables/snack-show-error/snack-show-error.service';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
+    SnackShowErrorModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -27,7 +30,7 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
     NgxsLoggerPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot()
   ],
-  providers: [],
+  providers: [SnackShowErrorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

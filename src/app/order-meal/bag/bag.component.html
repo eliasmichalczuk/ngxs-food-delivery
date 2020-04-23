@@ -16,12 +16,23 @@
       </div>
       <div class="division"></div>
       <div class="total subtotal-texts-display float-text-value">
-        <div class="underlighted-text margin-8"><div>Subtotal</div> <div>{{dishesSubtotal$ | async}}</div></div>
-        <div class="underlighted-text margin-8"><div>Delivery fee</div> <div>{{deliveryFee$ | async}}</div></div>
-        <div class="underlighted-text margin-8 black"><div>Total</div> <div>{{dishesTotal$ | async}}</div></div>
+        <div class="underlighted-text margin-8"><div>Subtotal</div> <div>{{currency$ | async}} {{dishesSubtotal$ | async | numberWithComma}}</div></div>
+        <div class="underlighted-text margin-8"><div>Delivery fee</div> <div>{{currency$ | async}} {{deliveryFee$ | async | numberWithComma}}</div></div>
+        <div class="underlighted-text margin-8 black"><div>Total</div> <div>{{currency$ | async}} {{dishesTotal$ | async | numberWithComma}}</div></div>
       </div>
       <div class="division"></div>
-      <button mat-raised-button color="warn" class="complete-order" (click)="confirmOrder()">Complete order</button>
+      <ng-container [ngSwitch]="status$ | async">
+        <button *ngSwitchCase="'NONE'"
+          mat-raised-button color="warn" class="complete-order" (click)="confirmOrder()">Complete order</button>
+        <button *ngSwitchCase="'PENDING'"
+          mat-raised-button color="warn" class="complete-order pending"><mat-spinner class="pending-spinner"></mat-spinner></button>
+        <button *ngSwitchCase="'SUCCESS'"
+          mat-raised-button color="warn" class="complete-order success">Sucess ;D</button>
+        <button *ngSwitchCase="'DECLINED'"
+          mat-raised-button color="warn" class="complete-order declined" (click)="confirmOrder()">Declined... Try again</button>
+      </ng-container>
+      
+      
     </div>
     <ng-template #emptyBag>
       <div class="center">Your bag is empty!</div>

@@ -23,7 +23,8 @@ import { GetMenuByRestauranteIdService } from '../services/get-menu-by-restauran
 import { MediumDishCardModule } from '../shared/components/medium-dish-card/medium-dish-card.module';
 import { BagComponent } from './bag/bag.component';
 import { CompleteOrderService } from './services/complete-order.service';
-
+import { NumberPipeModule } from '../shared/pipes/number-pipe/number-pipe.module';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [ViewRestaurantComponent, OrderMealComponent, ViewMenuComponent, BagComponent],
   imports: [
@@ -40,6 +41,8 @@ import { CompleteOrderService } from './services/complete-order.service';
     MediumProfileCardModule,
     MediumDishCardModule,
     DishDetailsModalModule,
+    NumberPipeModule,
+    MatProgressSpinnerModule,
     NgxsModule.forFeature([
       OngoingOrder,
       AppState
