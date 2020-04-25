@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { GetAllRestaurantService } from './get-all-restaurant.service';
 
-describe('GetAllRestaurantsService', () => {
+xdescribe('GetAllRestaurantsService', () => {
   let service: GetAllRestaurantService;
 
   beforeEach(() => {

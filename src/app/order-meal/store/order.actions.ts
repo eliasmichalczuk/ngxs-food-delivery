@@ -150,7 +150,7 @@ export class OngoingOrderState {
     const userId = this.store.selectSnapshot<any>(global => global.app.user.name);
     ctx.dispatch([new OrderPending(state.id)]);
     this.confirmOrderService.post(new CompleteOrderDto(userId, dishes as any))
-      .subscribe(e => ctx.dispatch(new OrderSuccess(orderId)),
+      .subscribe(() => ctx.dispatch(new OrderSuccess(orderId)),
         err => {
           this.handler.error(err);
           return ctx.dispatch(new OrderFailed(orderId));
