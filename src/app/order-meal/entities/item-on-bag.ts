@@ -4,7 +4,10 @@ export class ItemOnBag {
   get bagId() {
     return this._bagId;
   }
-
+  private _calledToBeEdited: boolean;
+  get calledToBeEdited() {
+    return this._calledToBeEdited;
+  }
   constructor(
     public id: string,
     public name: string,

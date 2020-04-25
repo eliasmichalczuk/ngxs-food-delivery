@@ -1,4 +1,4 @@
-import { AddItemToBag } from './../../../order-meal/store/order.state';
+import { AddItemToBag, ItemOnBagEdited } from './../../../order-meal/store/order.state';
 import { Dish } from './../../../entities/dish';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ export class DishDetailsModalComponent implements OnInit {
   quantity = 1;
   constructor(
     public dialogRef: MatDialogRef<DishDetailsModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Dish,
+    @Inject(MAT_DIALOG_DATA) public data: Dish | ItemOnBag,
     private store: Store
   ) { }
 
@@ -37,13 +37,18 @@ export class DishDetailsModalComponent implements OnInit {
   }
 
   confirm() {
-    this.store.dispatch([
-      new AddItemToBag(
-        new ItemOnBag(this.data.id, this.data.name,
-          this.data.description, this.data.price,
-          this.data.currency, this.quantity)
-      )
-    ]);
+    // tslint:disable-next-line:no-string-literal
+    if (this.data['bagId']) {
+      this.store.dispatch([new ItemOnBagEdited(this.data as ItemOnBag)]);
+    } else {
+      this.store.dispatch([
+        new AddItemToBag(
+          new ItemOnBag(this.data.id, this.data.name,
+            this.data.description, this.data.price,
+            this.data.currency, this.quantity)
+        )
+      ]);
+    }
     this.dialogRef.close();
   }
 }

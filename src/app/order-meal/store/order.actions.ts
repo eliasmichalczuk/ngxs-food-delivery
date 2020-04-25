@@ -1,13 +1,21 @@
-import { AppStateModel } from './../../store/app.state';
-import { CompleteOrderService } from './../services/complete-order.service';
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext, StateToken, Store, Selector } from '@ngxs/store';
-
-import { Restaurant } from './../../entities/restaurant';
-import { SetRestaurant, AddItemToBag, ConfirmOrder, OrderSuccess, OrderFailed, RemoveItemFromBag, OrderPending } from './order.state';
+import { Action, Selector, State, StateContext, StateToken, Store } from '@ngxs/store';
 import { CompleteOrderDto } from 'src/app/entities/complete-order';
-import { tap, catchError, map } from 'rxjs/operators';
+import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
 import { SnackShowErrorService } from 'src/app/shared/components/consumables/snack-show-error/snack-show-error.service';
+
+import { CompleteOrderService } from './../services/complete-order.service';
+import {
+  AddItemToBag,
+  ConfirmOrder,
+  EditItemOnBag,
+  ItemOnBagEdited,
+  OrderFailed,
+  OrderPending,
+  OrderSuccess,
+  RemoveItemFromBag,
+  SetRestaurant,
+} from './order.state';
 
 export interface OngoingOrderModel {
   id: number;
@@ -33,6 +41,7 @@ export interface OngoingOrderModel {
     currency: string;
     quantity: number;
     bagId: number;
+    calledToBeEdited: boolean;
   }[];
 }
 
@@ -59,13 +68,19 @@ const APP_STATE_TOKEN = new StateToken<OngoingOrderModel>('ongoingOrder');
   }
 })
 @Injectable()
-export class OngoingOrder {
+export class OngoingOrderState {
 
   constructor(
     private confirmOrderService: CompleteOrderService,
     private store: Store,
     private handler: SnackShowErrorService
   ) { }
+
+  @Selector()
+  static itemFromBagToEdit(state: OngoingOrderModel): ItemOnBag {
+    const toEdit =  state.dishes.find(item => item.calledToBeEdited) as ItemOnBag;
+    return toEdit;
+  }
 
   @Selector()
   static status(state: OngoingOrderModel): string {
@@ -88,13 +103,13 @@ export class OngoingOrder {
       dishes: [
         ...ctx.getState().dishes,
         {id: i.id, name: i.name, description: i.description,
-          price: i.price, currency: i.currency, quantity: i.quantity,
+          price: i.price, currency: i.currency, quantity: i.quantity, calledToBeEdited: i.calledToBeEdited,
           bagId: Math.random()}
       ]
     });
   }
 
-  @Action(RemoveItemFromBag) RemoveItemFromBag(ctx: StateContext<OngoingOrderModel>, { payload }: AddItemToBag) {
+  @Action(RemoveItemFromBag) RemoveItemFromBag(ctx: StateContext<OngoingOrderModel>, { payload }: RemoveItemFromBag) {
     const items = ctx.getState().dishes;
     items.splice(
       items.findIndex(item => item.id === payload.id && item.bagId === payload.bagId), 1);
@@ -104,6 +119,27 @@ export class OngoingOrder {
         ...items
       ]
     });
+  }
+
+  @Action(EditItemOnBag) EditItemOnBag(ctx: StateContext<OngoingOrderModel>, { payload }: EditItemOnBag) {
+    const items = ctx.getState().dishes;
+    items[items.findIndex(item => item.id === payload.id && item.bagId === payload.bagId)].calledToBeEdited = true;
+    ctx.patchState({dishes: [...items]});
+  }
+
+  @Action(ItemOnBagEdited) ItemOnBagEdited(ctx: StateContext<OngoingOrderModel>, { payload }: AddItemToBag) {
+    const items = ctx.getState().dishes;
+    const index = items.findIndex(item => item.id === payload.id && item.bagId === payload.bagId);
+    items.splice(index, 1, {id: payload.id, name: payload.name, description: payload.description,
+      price: payload.price, currency: payload.currency, quantity: payload.quantity, calledToBeEdited: false,
+      bagId: payload.bagId});
+    ctx.setState({
+      ...ctx.getState(),
+      dishes: [
+        ...items
+      ]
+    });
+    // ctx.patchState({dishes: [...items]});
   }
 
   @Action(ConfirmOrder) ConfirmOrder(ctx: StateContext<OngoingOrderModel>) {

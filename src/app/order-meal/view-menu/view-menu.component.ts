@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { Restaurant } from 'src/app/entities/restaurant';
 import { map, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { OngoingOrderState } from '../store/order.actions';
 
 @Component({
   selector: 'app-view-menu',
@@ -18,6 +19,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class ViewMenuComponent implements OnInit {
   dishes: Observable<Dish[]>;
   @Select(state => state.ongoingOrder.restaurant) restaurant$: Observable<Restaurant>;
+  @Select(OngoingOrderState.itemFromBagToEdit) itemFromBagToEdit$: Observable<ItemOnBag>;
+  @Select(OngoingOrderState.status) status$: Observable<string>;
 
   constructor(
     private menuService: GetMenuByRestauranteIdService,
@@ -25,6 +28,7 @@ export class ViewMenuComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.editItem();
     this.restaurant$.subscribe(res => {
       if (res) {
         this.dishes =  this.menuService.get(res.id)
@@ -38,6 +42,14 @@ export class ViewMenuComponent implements OnInit {
       width: '600px',
       height: '700px',
       data: item
+    });
+  }
+
+  editItem() {
+    this.itemFromBagToEdit$.subscribe(item => {
+      if (item) {
+        this.select(item as any);
+      }
     });
   }
 }

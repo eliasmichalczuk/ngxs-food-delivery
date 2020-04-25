@@ -1,22 +1,23 @@
 import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
 import { Store, Select } from '@ngxs/store';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { Observable, forkJoin, concat, merge, zip, combineLatest } from 'rxjs';
 import { Restaurant } from 'src/app/entities/restaurant';
-import { RemoveItemFromBag, ConfirmOrder } from '../../order-meal/store/order.state';
+import { RemoveItemFromBag, ConfirmOrder, EditItemOnBag } from '../../order-meal/store/order.state';
 import { map, concatMap } from 'rxjs/operators';
-import { OngoingOrder } from '../store/order.actions';
+import { OngoingOrderState } from '../store/order.actions';
 
 @Component({
   selector: 'app-bag',
   templateUrl: './bag.component.html',
   styleUrls: ['./bag.component.sass'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BagComponent implements OnInit {
 
   @Select(state => state.ongoingOrder.restaurant) restaurant$: Observable<Restaurant>;
-  @Select(OngoingOrder.status) status$: Observable<string>;
+  @Select(OngoingOrderState.status) status$: Observable<string>;
   @Select(state => state.ongoingOrder.dishes) dishes$: Observable<ItemOnBag[]>;
   dishesTotal$: Observable<number>;
   deliveryFee$: Observable<number>;
@@ -28,11 +29,15 @@ export class BagComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.dishesSubtotal();
     this.deliveryFee();
     this.sumOrderTotalPrice();
   }
 
-  edit() {
+  edit(item: ItemOnBag) {
+    this.store.dispatch([
+      new EditItemOnBag(item)
+    ]);
   }
 
   remove(item: ItemOnBag) {
@@ -49,6 +54,9 @@ export class BagComponent implements OnInit {
       total += items[1];
       return total;
     }));
+  }
+
+  dishesSubtotal() {
     this.dishesSubtotal$ = this.dishes$.pipe(map(items => {
       let total = 0;
       items.forEach(item => total += item.price * item.quantity);
@@ -57,7 +65,7 @@ export class BagComponent implements OnInit {
   }
 
   deliveryFee() {
-    this.deliveryFee$ = this.dishes$.pipe(map(items => items[0].price * 0.6));
+    this.deliveryFee$ = this.dishesSubtotal$.pipe(map(total => total * 0.1 + 20));
     this.currency$ = this.dishes$.pipe(map(items => items[0].currency));
   }
 

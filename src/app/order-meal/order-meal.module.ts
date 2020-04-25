@@ -1,5 +1,5 @@
 import { DishDetailsModalModule } from './../shared/components/dish-details-modal/dish-details-modal.module';
-import { OngoingOrder } from './store/order.actions';
+import { OngoingOrderState } from './store/order.actions';
 import { ViewRestaurantComponent } from './view-restaurant/view-restaurant.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -44,7 +44,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     NumberPipeModule,
     MatProgressSpinnerModule,
     NgxsModule.forFeature([
-      OngoingOrder,
+      OngoingOrderState,
       AppState
     ])
   ],

@@ -10,9 +10,17 @@ export class AddItemToBag {
   static readonly type = '[view-menu.component] AddItemToBag';
   constructor(public payload: ItemOnBag) { }
 }
+export class EditItemOnBag {
+  static readonly type = '[bag.component] EditItemOnBag';
+  constructor(public payload: ItemOnBag) { }
+}
 
+export class ItemOnBagEdited {
+  static readonly type = '[bag.component] ItemOnBagEdited';
+  constructor(public payload: ItemOnBag) { }
+}
 export class RemoveItemFromBag {
-  static readonly type = '[view-menu.component] RemoveItemFromToBag';
+  static readonly type = '[bag.component] RemoveItemFromToBag';
   constructor(public payload: ItemOnBag) { }
 }
 

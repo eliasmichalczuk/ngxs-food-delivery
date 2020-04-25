@@ -1,10 +1,15 @@
 <div mat-dialog-content>
+  <h3>Select the amount of portions for you</h3>
   <div>{{data.name}}</div>
-  <div>{{quantity}}</div>
+  <div>Quantity: {{quantity}}</div>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
   <button mat-button (click)="less()">-</button>
   <button mat-button (click)="more()">+</button>
-  <button mat-button  (click)="confirm()" cdkFocusInitial>Add to bag!</button>
+  <button mat-button (click)="confirm()" cdkFocusInitial *ngIf="!data['bagId']; else confirmEdit">Add to bag!</button>
+  <ng-template #confirmEdit>
+    <button mat-button (click)="confirm()" cdkFocusInitial>Confirm edit</button>
+  </ng-template>
+  
 </div>
