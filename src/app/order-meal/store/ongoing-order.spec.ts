@@ -1,14 +1,14 @@
-import { HttpResponse } from '@angular/common/http';
-import { AppState } from 'src/app/store/app.state';
-import { CompleteOrderService } from './../services/complete-order.service';
-import { Restaurant } from 'src/app/entities/restaurant';
-import { SetRestaurant, ConfirmOrder, OrderSuccess } from './order.state';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { Store, NgxsModule } from '@ngxs/store';
-import { OngoingOrderState } from './order.actions';
-import { Observable, of } from 'rxjs';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { async, TestBed } from '@angular/core/testing';
+import { Actions, NgxsModule, ofActionDispatched, Store } from '@ngxs/store';
+import { Observable, of, throwError } from 'rxjs';
 import { SnackShowErrorService } from 'src/app/shared/components/consumables/snack-show-error/snack-show-error.service';
-import { Actions, ofActionDispatched } from '@ngxs/store';
+import { AppState } from 'src/app/store/app.state';
+
+import { CompleteOrderService } from '../services/complete-order.service';
+import { OngoingOrderState } from './ongoing-order.actions';
+import { ConfirmOrder, OrderDeclined, OrderSuccess, SetRestaurant } from './ongoing-order.state';
+
 class CompleteOrderServiceMock {
   post(...params): Observable<any> {
     return of([]);
@@ -17,7 +17,7 @@ class CompleteOrderServiceMock {
 class SnackShowErrorServiceMock {
   error(...params) {}
 }
-fdescribe('order.spec | OnGoingOrderState', () => {
+describe('ongoing-order.spec | OnGoingOrderState', () => {
   let actions: Actions;
   let orderState: OngoingOrderState;
   let store: Store;
@@ -52,7 +52,7 @@ fdescribe('order.spec | OnGoingOrderState', () => {
     expect(store.selectSnapshot(state => state.ongoingOrder.restaurant.id)).toEqual('restaurant-id');
   });
 
-  fit('should dispatch OrderSuccess', fakeAsync((done) => {
+  it('should dispatch OrderSuccess', async(() => {
     // tslint:disable-next-line:no-string-literal
     const spy = spyOn(orderState['confirmOrderService'], 'post')
       .and.returnValue(of(new HttpResponse({body: '213'})));
@@ -84,13 +84,54 @@ fdescribe('order.spec | OnGoingOrderState', () => {
     });
     let actDispatched = false;
     actions.pipe(ofActionDispatched(OrderSuccess))
-    .subscribe(() => {
-      done();
-      actDispatched = true;
-    });
+      .subscribe(() => {
+        actDispatched = true;
+      });
     store.dispatch([new ConfirmOrder()]).subscribe(() => {
       expect(actDispatched).toBeTrue();
     });
-    tick(5000);
+  }));
+
+  it('should dispatch OrderDeclined and call handler error', async(() => {
+    // tslint:disable-next-line:no-string-literal
+    const spy = spyOn(orderState['confirmOrderService'], 'post')
+      .and.returnValue(throwError(new HttpErrorResponse({})));
+    // tslint:disable-next-line:no-string-literal
+    const handlerSpy = spyOn(orderState['handler'], 'error').and.callThrough();
+    store.reset({
+      app: {
+        user: {
+          name: 'user-name'
+        }
+      },
+      ongoingState: {
+        id: 123,
+        status: 'NONE',
+        restaurant: {
+          id: 'rest-id',
+          name: 'rest-name',
+          address: {},
+        },
+        dishes: [{
+          id: 'dish-1-id',
+          name: 'dish-1-name',
+          description: 'good food',
+          price: 2300,
+          currency: 'R$',
+          quantity: 2,
+          bagId: 'bagd-id',
+          calledToBeEdited: false
+        }]
+      }
+    });
+    let actDispatched = false;
+    actions.pipe(ofActionDispatched(OrderDeclined))
+      .subscribe(() => {
+        actDispatched = true;
+      });
+    store.dispatch([new ConfirmOrder()]).subscribe(() => {
+      expect(actDispatched).toBeTrue();
+    });
+    expect(handlerSpy).toHaveBeenCalled();
   }));
 });

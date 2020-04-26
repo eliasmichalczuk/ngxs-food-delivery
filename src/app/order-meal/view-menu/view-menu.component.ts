@@ -1,15 +1,15 @@
-import { DishDetailsModalComponent } from './../../shared/components/dish-details-modal/dish-details-modal.component';
-import { AddItemToBag } from './../store/order.state';
-import { ItemOnBag } from './../entities/item-on-bag';
-import { Dish } from 'src/app/entities/dish';
-import { GetMenuByRestauranteIdService } from './../../services/get-menu-by-restaurante-id.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { Restaurant } from 'src/app/entities/restaurant';
-import { map, tap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { OngoingOrderState } from '../store/order.actions';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Dish } from 'src/app/entities/dish';
+import { Restaurant } from 'src/app/entities/restaurant';
+
+import { OngoingOrderState } from '../store/ongoing-order.actions';
+import { GetMenuByRestauranteIdService } from './../../services/get-menu-by-restaurante-id.service';
+import { DishDetailsModalComponent } from './../../shared/components/dish-details-modal/dish-details-modal.component';
+import { ItemOnBag } from './../entities/item-on-bag';
 
 @Component({
   selector: 'app-view-menu',

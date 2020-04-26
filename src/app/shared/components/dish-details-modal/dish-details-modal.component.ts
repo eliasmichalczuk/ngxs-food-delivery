@@ -1,4 +1,4 @@
-import { AddItemToBag, ItemOnBagEdited } from './../../../order-meal/store/order.state';
+import { AddItemToBag, ItemOnBagEdited } from '../../../order-meal/store/ongoing-order.state';
 import { Dish } from './../../../entities/dish';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';

@@ -1,9 +1,8 @@
-import { OrderFailed, OrderPending } from './../order-meal/store/order.state';
-import { Action, State, StateContext, StateToken } from '@ngxs/store';
-import { SetPlace, SetTest } from './app.actions';
 import { Injectable } from '@angular/core';
-import { OrderSuccess, AddItemToBag } from '../order-meal/store/order.state';
-import { OngoingOrderModel } from '../order-meal/store/order.actions';
+import { Action, State, StateContext, StateToken } from '@ngxs/store';
+
+import { OrderDeclined, OrderPending, OrderSuccess } from '../order-meal/store/ongoing-order.state';
+import { SetPlace } from './app.actions';
 
 // export interface PlaceStateModel {
 //   city: string;
@@ -92,12 +91,27 @@ export class AppState {
     });
   }
 
-  @Action(OrderSuccess) OrderSuccess({ patchState }: StateContext<OngoingOrderModel>) {
-    patchState({status: 'SUCCESS'});
+  @Action(OrderSuccess) OrderSuccess(ctx: StateContext<AppStateModel>) {
+    const state = ctx.getState();
+    ctx.setState({
+      ...state,
+      lastOrder: {
+        id: state.lastOrder.id,
+        status: 'SUCCESS'
+      }
+    });
   }
 
-  @Action(OrderFailed) OrderDeclined({ patchState }: StateContext<OngoingOrderModel>) {
-    patchState({status: 'DECLINED'});
+  @Action(OrderDeclined) OrderDeclined(ctx: StateContext<AppStateModel>) {
+    const state = ctx.getState();
+    ctx.setState({
+      ...state,
+      lastOrder: {
+        id: state.lastOrder.id,
+        status: 'DECLINED'
+      }
+    });
+    // patchState({lastOrder: {id: getState.}});
   }
 }
 // place: {

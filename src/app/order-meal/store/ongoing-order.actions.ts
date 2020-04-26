@@ -4,18 +4,18 @@ import { CompleteOrderDto } from 'src/app/entities/complete-order';
 import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
 import { SnackShowErrorService } from 'src/app/shared/components/consumables/snack-show-error/snack-show-error.service';
 
-import { CompleteOrderService } from './../services/complete-order.service';
+import { CompleteOrderService } from '../services/complete-order.service';
 import {
   AddItemToBag,
   ConfirmOrder,
   EditItemOnBag,
   ItemOnBagEdited,
-  OrderFailed,
+  OrderDeclined as OrderDeclined,
   OrderPending,
   OrderSuccess,
   RemoveItemFromBag,
   SetRestaurant,
-} from './order.state';
+} from './ongoing-order.state';
 
 export interface OngoingOrderModel {
   id: number;
@@ -153,7 +153,7 @@ export class OngoingOrderState {
       .subscribe(() => ctx.dispatch(new OrderSuccess(orderId)),
         err => {
           this.handler.error(err);
-          return ctx.dispatch(new OrderFailed(orderId));
+          return ctx.dispatch(new OrderDeclined(orderId));
         });
   }
 
@@ -161,7 +161,7 @@ export class OngoingOrderState {
     patchState({status: 'SUCCESS'});
   }
 
-  @Action(OrderFailed) OrderDeclined({ patchState }: StateContext<OngoingOrderModel>) {
+  @Action(OrderDeclined) OrderDeclined({ patchState }: StateContext<OngoingOrderModel>) {
     patchState({status: 'DECLINED'});
   }
 }

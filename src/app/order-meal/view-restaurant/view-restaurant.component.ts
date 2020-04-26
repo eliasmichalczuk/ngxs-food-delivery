@@ -4,7 +4,7 @@ import { GetAllRestaurantService } from './../../services/get-all-restaurant.ser
 import { Component, OnInit } from '@angular/core';
 import { OrderMealStepperServiceService } from '../services/order-meal-stepper-service.service';
 import { FormControl, AbstractControl } from '@angular/forms';
-import { SetRestaurant } from '../store/order.state';
+import { SetRestaurant } from '../store/ongoing-order.state';
 
 @Component({
   selector: 'app-view-restaurant',

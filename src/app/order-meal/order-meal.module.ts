@@ -1,30 +1,31 @@
-import { DishDetailsModalModule } from './../shared/components/dish-details-modal/dish-details-modal.module';
-import { OngoingOrderState } from './store/order.actions';
-import { ViewRestaurantComponent } from './view-restaurant/view-restaurant.component';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { OrderMealRoutingModule } from './order-meal-routing.module';
-import { OrderMealComponent } from './order-meal/order-meal.component';
-import {MatStepperModule} from '@angular/material/stepper';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import { MatChipsModule } from '@angular/material/chips';
-import { MediumProfileCardModule } from '../shared/components/medium-profile-card/medium-profile-card.module';
-import { OrderMealStepperServiceService } from './services/order-meal-stepper-service.service';
-import { GetAllRestaurantService } from '../services/get-all-restaurant.service';
-import { NgxsModule } from '@ngxs/store';
-import { AppState } from '../store/app.state';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { ViewMenuComponent } from './view-menu/view-menu.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatStepperModule } from '@angular/material/stepper';
+import { NgxsModule } from '@ngxs/store';
+
+import { GetAllRestaurantService } from '../services/get-all-restaurant.service';
 import { GetMenuByRestauranteIdService } from '../services/get-menu-by-restaurante-id.service';
 import { MediumDishCardModule } from '../shared/components/medium-dish-card/medium-dish-card.module';
-import { BagComponent } from './bag/bag.component';
-import { CompleteOrderService } from './services/complete-order.service';
+import { MediumProfileCardModule } from '../shared/components/medium-profile-card/medium-profile-card.module';
 import { NumberPipeModule } from '../shared/pipes/number-pipe/number-pipe.module';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { AppState } from '../store/app.state';
+import { DishDetailsModalModule } from './../shared/components/dish-details-modal/dish-details-modal.module';
+import { BagComponent } from './bag/bag.component';
+import { OrderMealRoutingModule } from './order-meal-routing.module';
+import { OrderMealComponent } from './order-meal/order-meal.component';
+import { CompleteOrderService } from './services/complete-order.service';
+import { OrderMealStepperServiceService } from './services/order-meal-stepper-service.service';
+import { OngoingOrderState } from './store/ongoing-order.actions';
+import { ViewMenuComponent } from './view-menu/view-menu.component';
+import { ViewRestaurantComponent } from './view-restaurant/view-restaurant.component';
+
 @NgModule({
   declarations: [ViewRestaurantComponent, OrderMealComponent, ViewMenuComponent, BagComponent],
   imports: [

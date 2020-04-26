@@ -37,7 +37,7 @@ export class OrderSuccess {
   constructor(public orderId: number) { }
 }
 
-export class OrderFailed {
+export class OrderDeclined {
   static readonly type = '[order.actions] OrderFailed';
   constructor(public orderId: number) { }
 }

@@ -1,11 +1,12 @@
-import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
-import { Store, Select } from '@ngxs/store';
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { Observable, forkJoin, concat, merge, zip, combineLatest } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Restaurant } from 'src/app/entities/restaurant';
-import { RemoveItemFromBag, ConfirmOrder, EditItemOnBag } from '../../order-meal/store/order.state';
-import { map, concatMap } from 'rxjs/operators';
-import { OngoingOrderState } from '../store/order.actions';
+import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
+
+import { OngoingOrderState } from '../store/ongoing-order.actions';
+import { ConfirmOrder, EditItemOnBag, RemoveItemFromBag } from '../store/ongoing-order.state';
 
 @Component({
   selector: 'app-bag',
