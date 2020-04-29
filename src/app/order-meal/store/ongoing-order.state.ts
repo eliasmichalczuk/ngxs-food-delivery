@@ -110,7 +110,7 @@ export class OngoingOrderState {
           price: i.price,
           currency: i.currency,
           quantity: i.quantity,
-          calledToBeEdited: i.calledToBeEdited,
+          calledToBeEdited: false,
           bagId: Math.random()
         }
       ]
@@ -138,23 +138,18 @@ export class OngoingOrderState {
   }
 
   @Action(ItemOnBagEdited)
-  ItemOnBagEdited(ctx: StateContext<OngoingOrderModel>, { payload }: AddItemToBag) {
-    const items = ctx.getState().dishes;
-    const index = items.findIndex(item => item.id === payload.id && item.bagId === payload.bagId);
-    items.splice(index, 1,
-      { id: payload.id,
-        name: payload.name,
-        description: payload.description,
-        price: payload.price,
-        currency: payload.currency,
-        quantity: payload.quantity,
-        calledToBeEdited: false,
-        bagId: payload.bagId
-      });
+  ItemOnBagEdited(ctx: StateContext<OngoingOrderModel>, edited: ItemOnBagEdited) {
+    const dishes = ctx.getState().dishes;
+    const itemToBeEditedIndex = dishes.findIndex(item => item.id === edited.itemId && item.bagId === edited.bagId);
+    const removedItem = dishes.splice(itemToBeEditedIndex, 1)[0];
+    removedItem.quantity = edited.quantity;
+    removedItem.calledToBeEdited = false;
+    const dishesAfterRemoveToEditItem = [...dishes];
+    dishesAfterRemoveToEditItem.splice(itemToBeEditedIndex, 0, removedItem);
     ctx.setState({
       ...ctx.getState(),
       dishes: [
-        ...items
+        ...dishesAfterRemoveToEditItem
       ]
     });
   }

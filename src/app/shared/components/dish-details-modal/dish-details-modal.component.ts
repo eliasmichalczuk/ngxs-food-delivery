@@ -1,6 +1,6 @@
 import { AddItemToBag, ItemOnBagEdited } from '../../../order-meal/store/ongoing-order.actions';
 import { Dish } from './../../../entities/dish';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
@@ -17,7 +17,13 @@ export class DishDetailsModalComponent implements OnInit {
     public dialogRef: MatDialogRef<DishDetailsModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Dish | ItemOnBag,
     private store: Store
-  ) { }
+  ) {
+      // tslint:disable-next-line:no-string-literal
+    if (this.data['quantity']) {
+      // tslint:disable-next-line:no-string-literal
+      this.quantity = this.data['quantity'];
+    }
+  }
 
   ngOnInit(): void {
   }
@@ -39,7 +45,8 @@ export class DishDetailsModalComponent implements OnInit {
   confirm() {
     // tslint:disable-next-line:no-string-literal
     if (this.data['bagId']) {
-      this.store.dispatch([new ItemOnBagEdited(this.data as ItemOnBag)]);
+      // tslint:disable-next-line:no-string-literal
+      this.store.dispatch([new ItemOnBagEdited(this.data.id, this.data['bagId'], this.quantity)]);
     } else {
       this.store.dispatch([
         new AddItemToBag(

@@ -17,7 +17,7 @@ export class EditItemOnBag {
 
 export class ItemOnBagEdited {
   static readonly type = '[bag.component] ItemOnBagEdited';
-  constructor(public payload: ItemOnBag) { }
+  constructor(public itemId: string, public bagId: number, public quantity: number) { }
 }
 export class RemoveItemFromBag {
   static readonly type = '[bag.component] RemoveItemFromToBag';
