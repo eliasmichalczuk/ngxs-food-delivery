@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { Dish } from 'src/app/entities/dish';
 import { Restaurant } from 'src/app/entities/restaurant';
 
-import { OngoingOrderState } from '../store/ongoing-order.actions';
+import { OngoingOrderState } from '../store/ongoing-order.state';
 import { GetMenuByRestauranteIdService } from './../../services/get-menu-by-restaurante-id.service';
 import { DishDetailsModalComponent } from './../../shared/components/dish-details-modal/dish-details-modal.component';
 import { ItemOnBag } from './../entities/item-on-bag';

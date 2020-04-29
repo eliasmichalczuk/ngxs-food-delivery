@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, State, StateContext, StateToken } from '@ngxs/store';
 
-import { OrderDeclined, OrderPending, OrderSuccess } from '../order-meal/store/ongoing-order.state';
+import { OrderDeclined, OrderPending, OrderSuccess } from '../order-meal/store/ongoing-order.actions';
 import { SetPlace } from './app.actions';
 
 // export interface PlaceStateModel {

@@ -22,7 +22,7 @@ import { OrderMealRoutingModule } from './order-meal-routing.module';
 import { OrderMealComponent } from './order-meal/order-meal.component';
 import { CompleteOrderService } from './services/complete-order.service';
 import { OrderMealStepperServiceService } from './services/order-meal-stepper-service.service';
-import { OngoingOrderState } from './store/ongoing-order.actions';
+import { OngoingOrderState } from './store/ongoing-order.state';
 import { ViewMenuComponent } from './view-menu/view-menu.component';
 import { ViewRestaurantComponent } from './view-restaurant/view-restaurant.component';
 

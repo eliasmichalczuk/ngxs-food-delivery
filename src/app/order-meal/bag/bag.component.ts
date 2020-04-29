@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 import { Restaurant } from 'src/app/entities/restaurant';
 import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
 
-import { OngoingOrderState } from '../store/ongoing-order.actions';
-import { ConfirmOrder, EditItemOnBag, RemoveItemFromBag } from '../store/ongoing-order.state';
+import { OngoingOrderState } from '../store/ongoing-order.state';
+import { ConfirmOrder, EditItemOnBag, RemoveItemFromBag } from '../store/ongoing-order.actions';
 
 @Component({
   selector: 'app-bag',
