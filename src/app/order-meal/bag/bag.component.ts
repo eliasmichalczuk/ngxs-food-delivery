@@ -21,8 +21,9 @@ export class BagComponent implements OnInit {
   @Select(OngoingOrderState.status) status$: Observable<string>;
   @Select(state => state.ongoingOrder.dishes) dishes$: Observable<ItemOnBag[]>;
   dishesTotal$: Observable<number>;
+  // @Select(OngoingOrderState.deliveryFee) deliveryFee$: Observable<number>;
   deliveryFee$: Observable<number>;
-  dishesSubtotal$: Observable<number>;
+  @Select(OngoingOrderState.dishesSubTotal()) dishesSubtotal$: Observable<number>;
   currency$: Observable<string>;
 
   constructor(
@@ -30,7 +31,7 @@ export class BagComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dishesSubtotal();
+    // this.dishesSubtotal();
     this.deliveryFee();
     this.sumOrderTotalPrice();
   }
@@ -58,15 +59,16 @@ export class BagComponent implements OnInit {
   }
 
   dishesSubtotal() {
-    this.dishesSubtotal$ = this.dishes$.pipe(map(items => {
-      let total = 0;
-      items.forEach(item => total += item.price * item.quantity);
-      return total;
-    }));
+    // this.dishesSubtotal$ = this.dishes$.pipe(map(items => {
+    //   let total = 0;
+    //   items.forEach(item => total += item.price * item.quantity);
+    //   return total;
+    // }));
+    // this.dishesSubtotal$ =
   }
 
   deliveryFee() {
-    this.deliveryFee$ = this.dishesSubtotal$.pipe(map(total => total * 0.1 + 20));
+    this.deliveryFee$ = this.dishesSubtotal$.pipe(map(total => total * 0.1 + 2000));
     this.currency$ = this.dishes$.pipe(map(items => items[0].currency));
   }
 

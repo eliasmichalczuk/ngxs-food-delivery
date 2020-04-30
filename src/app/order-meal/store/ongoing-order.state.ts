@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext, StateToken, Store } from '@ngxs/store';
+import { Action, Selector, State, StateContext, StateToken, Store, createSelector } from '@ngxs/store';
 import { CompleteOrderDto } from 'src/app/entities/complete-order';
 import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
 import { SnackShowErrorService } from 'src/app/shared/components/consumables/snack-show-error/snack-show-error.service';
@@ -85,6 +85,18 @@ export class OngoingOrderState {
   @Selector()
   static status(state: OngoingOrderModel): string {
     return state.status;
+  }
+
+  static dishesSubTotal() {
+    return createSelector([OngoingOrderState], (state: OngoingOrderModel) => {
+      return state.dishes.map(item => item.price * item.quantity)
+        .reduce((itemTotal, nextItemTotal) => itemTotal + nextItemTotal, 0);
+    });
+  }
+
+  @Selector([OngoingOrderState.dishesSubTotal])
+  static deliveryFee(state: OngoingOrderModel, subtotal: number) {
+    return subtotal * 0.1 + 2000;
   }
 
   @Action(SetRestaurant)
