@@ -87,16 +87,29 @@ export class OngoingOrderState {
     return state.status;
   }
 
-  static dishesSubTotal() {
-    return createSelector([OngoingOrderState], (state: OngoingOrderModel) => {
-      return state.dishes.map(item => item.price * item.quantity)
-        .reduce((itemTotal, nextItemTotal) => itemTotal + nextItemTotal, 0);
-    });
+  // static dishesSubTotal() {
+  //   return createSelector([OngoingOrderState], (state: OngoingOrderModel) => {
+  //     return state.dishes.map(item => item.price * item.quantity)
+  //       .reduce((itemTotal, nextItemTotal) => itemTotal + nextItemTotal, 0);
+  //   });
+  // }
+  @Selector()
+  static dishesSubTotal(state: OngoingOrderModel) {
+    if (!state) {
+      return 0;
+    }
+    return state.dishes.map(item => item.price * item.quantity)
+      .reduce((itemTotal, nextItemTotal) => itemTotal + nextItemTotal, 0);
   }
 
   @Selector([OngoingOrderState.dishesSubTotal])
-  static deliveryFee(state: OngoingOrderModel, subtotal: number) {
+  static deliveryFee(subtotal: number) {
     return subtotal * 0.1 + 2000;
+  }
+
+  @Selector([OngoingOrderState.dishesSubTotal, OngoingOrderState.deliveryFee])
+  static orderTotal(subtotal: number, deliveryFee: number) {
+    return subtotal + deliveryFee;
   }
 
   @Action(SetRestaurant)

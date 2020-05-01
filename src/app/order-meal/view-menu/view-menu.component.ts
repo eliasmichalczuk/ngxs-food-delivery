@@ -20,7 +20,6 @@ export class ViewMenuComponent implements OnInit {
   dishes: Observable<Dish[]>;
   @Select(state => state.ongoingOrder.restaurant) restaurant$: Observable<Restaurant>;
   @Select(OngoingOrderState.itemFromBagToEdit) itemFromBagToEdit$: Observable<ItemOnBag>;
-  @Select(OngoingOrderState.status) status$: Observable<string>;
 
   constructor(
     private menuService: GetMenuByRestauranteIdService,
