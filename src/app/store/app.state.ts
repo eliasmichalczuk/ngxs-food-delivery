@@ -4,38 +4,7 @@ import { Action, State, StateContext, StateToken } from '@ngxs/store';
 import { OrderDeclined, OrderPending, OrderSuccess } from '../order-meal/store/ongoing-order.actions';
 import { SetPlace } from './app.actions';
 
-// export interface PlaceStateModel {
-//   city: string;
-//   country: string;
-//   id: string;
-// }
-
-// const PLACE_STATE_TOKEN = new StateToken<PlaceStateModel>('place');
-// @State<PlaceStateModel>({
-//   name: PLACE_STATE_TOKEN,
-//   defaults: {
-//     city: '',
-//     country: '',
-//     id: ''
-//   }
-// })
-// @Injectable()
-// export class PlaceState {
-
-//   @Action(SetPlace) setPlace(ctx: StateContext<PlaceStateModel>, payload: Place) {
-//     ctx.setState({
-//       city: payload.city,
-//       country: payload.country,
-//       id: payload.id
-//     });
-//   }
-// }
 export interface AppStateModel {
-  user: {
-    name: string,
-    email: string,
-    phone: string
-  };
   lastOrder: {
     id: number,
     status: 'PENDING' | 'SUCCESS' | 'DECLINED' | 'NONE'
@@ -45,17 +14,18 @@ export interface AppStateModel {
     country: string;
     id: string;
   };
+  userForm: {
+    model: any,
+    dirty: boolean,
+    status: '',
+    errors: {}
+  };
 }
 
 const APP_STATE_TOKEN = new StateToken<AppStateModel>('app');
 @State<AppStateModel>({
   name: APP_STATE_TOKEN,
   defaults: {
-    user: {
-      name: '',
-      email: '',
-      phone: ''
-    },
     lastOrder: {
       id: 0,
       status: 'NONE'
@@ -64,6 +34,12 @@ const APP_STATE_TOKEN = new StateToken<AppStateModel>('app');
       city: '',
       country: '',
       id: ''
+    },
+    userForm: {
+      model: undefined,
+      dirty: false,
+      status: '',
+      errors: {}
     }
   },
 })
@@ -111,22 +87,5 @@ export class AppState {
         status: 'DECLINED'
       }
     });
-    // patchState({lastOrder: {id: getState.}});
   }
 }
-// place: {
-//   city: payload.city,
-//   country: payload.country,
-//   id: payload.id
-// }
-
-
-// ctx.setState(
-//   patch({
-//     place: patch({
-//       city: payload.city,
-//       country: payload.country,
-//       id: payload.id,
-//     })
-//   })
-// );
