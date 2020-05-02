@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OrderMealStepperServiceService } from '../services/order-meal-stepper-service.service';
 import { Select, Store } from '@ngxs/store';
 import { Restaurant } from 'src/app/entities/restaurant';
+import { RestaurantOnView } from '../store/ongoing-order.state';
 
 @Component({
   selector: 'app-order-meal',
@@ -21,12 +22,10 @@ export class OrderMealComponent implements OnInit {
     return this.stepperService.stepTwoForm;
   }
 
-  @Select(state => state.ongoingOrder.restaurant) restaurant$: Observable<Restaurant>;
+  @Select(state => state.ongoingOrder.restaurantOnView) restaurant$: Observable<RestaurantOnView>;
 
   constructor(
     private stepperService: OrderMealStepperServiceService,
-    private store: Store,
-    private getMenu: GetMenuByRestauranteIdService
   ) {}
 
   ngOnInit() {

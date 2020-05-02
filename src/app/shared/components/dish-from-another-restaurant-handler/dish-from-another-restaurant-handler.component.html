@@ -1,0 +1,10 @@
+<div class="separate">
+  <div mat-dialog-content class="padding">
+    <strong>You can only add itens from one restaurant at a time</strong>
+    <p>Do you wish to empty your bag and add this item?</p>
+  </div>
+  <div mat-dialog-actions class="space-evenly">
+    <button mat-button (click)="cancel()" cdkFocusInitial>Cancel</button>
+    <button mat-button (click)="confirm()" cdkFocusInitial>Confirm</button>
+  </div>
+</div>

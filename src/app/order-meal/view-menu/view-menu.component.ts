@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { Dish } from 'src/app/entities/dish';
 import { Restaurant } from 'src/app/entities/restaurant';
 
-import { OngoingOrderState } from '../store/ongoing-order.state';
+import { OngoingOrderState, RestaurantOnView } from '../store/ongoing-order.state';
 import { GetMenuByRestauranteIdService } from './../../services/get-menu-by-restaurante-id.service';
 import { DishDetailsModalComponent } from './../../shared/components/dish-details-modal/dish-details-modal.component';
 import { ItemOnBag } from './../entities/item-on-bag';
@@ -18,8 +18,9 @@ import { ItemOnBag } from './../entities/item-on-bag';
 })
 export class ViewMenuComponent implements OnInit {
   dishes: Observable<Dish[]>;
-  @Select(state => state.ongoingOrder.restaurant) restaurant$: Observable<Restaurant>;
+  @Select(state => state.ongoingOrder.restaurantOnView) restaurant$: Observable<RestaurantOnView>;
   @Select(OngoingOrderState.itemFromBagToEdit) itemFromBagToEdit$: Observable<ItemOnBag>;
+  restaurantId: string;
 
   constructor(
     private menuService: GetMenuByRestauranteIdService,
@@ -30,6 +31,7 @@ export class ViewMenuComponent implements OnInit {
     this.editItem();
     this.restaurant$.subscribe(res => {
       if (res) {
+        this.restaurantId = res.id;
         this.dishes =  this.menuService.get(res.id)
           .pipe(map(menu => menu[0].dishes));
       }
@@ -40,7 +42,7 @@ export class ViewMenuComponent implements OnInit {
     this.dialog.open(DishDetailsModalComponent, {
       width: '600px',
       height: '700px',
-      data: item
+      data: {item, restaurantId: this.restaurantId}
     });
   }
 

@@ -15,7 +15,7 @@ export class DishDetailsModalComponent implements OnInit {
   quantity = 1;
   constructor(
     public dialogRef: MatDialogRef<DishDetailsModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Dish | ItemOnBag,
+    @Inject(MAT_DIALOG_DATA) public data: {item: Dish, restaurantId: string} | ItemOnBag,
     private store: Store
   ) {
       // tslint:disable-next-line:no-string-literal
@@ -45,14 +45,15 @@ export class DishDetailsModalComponent implements OnInit {
   confirm() {
     // tslint:disable-next-line:no-string-literal
     if (this.data['bagId']) {
-      // tslint:disable-next-line:no-string-literal
-      this.store.dispatch([new ItemOnBagEdited(this.data.id, this.data['bagId'], this.quantity)]);
+      const castedItem = this.data as ItemOnBag;
+      this.store.dispatch([new ItemOnBagEdited(castedItem.id, castedItem.bagId, this.quantity)]);
     } else {
+      const castedItem = this.data as {item: Dish, restaurantId: string};
       this.store.dispatch([
         new AddItemToBag(
-          new ItemOnBag(this.data.id, this.data.name,
-            this.data.description, this.data.price,
-            this.data.currency, this.quantity)
+          new ItemOnBag(castedItem.item.id, castedItem.item.name,
+            castedItem.item.description, castedItem.item.price,
+            castedItem.item.currency, this.quantity), castedItem.restaurantId
         )
       ]);
     }

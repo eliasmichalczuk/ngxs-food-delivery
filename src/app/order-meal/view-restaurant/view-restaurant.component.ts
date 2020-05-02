@@ -1,3 +1,4 @@
+import { ViewRestaurant } from './../store/ongoing-order.actions';
 import { Store, Select } from '@ngxs/store';
 import { Restaurant } from './../../entities/restaurant';
 import { GetAllRestaurantService } from './../../services/get-all-restaurant.service';
@@ -49,7 +50,7 @@ export class ViewRestaurantComponent implements OnInit {
     this.selected = item;
     this.selectedRestaurantId.setValue(item.id);
     this.store.dispatch([
-      new SetRestaurant(item)
+      new SetRestaurant(item), new ViewRestaurant(item)
     ]);
   }
 

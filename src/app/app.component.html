@@ -2,13 +2,13 @@
   <header>
     <div *ngIf="user$ | async as user" class="user-info" class="header">
       <div class="user-name" *ngIf="user.name; else createAccountTemplate">
-        <div class="create-account">
+        <div class="welcome">
           Welcome, {{user.name}}
         </div>
-        <mat-icon aria-hidden="false" class="padding-icon">home</mat-icon>
+        <mat-icon aria-hidden="false" class="padding-icon">account_circle</mat-icon>
       </div>
       <ng-template #createAccountTemplate>
-        <button class="create-account" mat-raised-button color="accent" (click)="createAccount()">Create account</button>
+        <button class="create-account-button" mat-raised-button color="accent" (click)="createAccount()">Create account</button>
       </ng-template>
     </div>
   </header>

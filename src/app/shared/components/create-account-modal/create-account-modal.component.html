@@ -12,6 +12,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Enter your email</mat-label>
           <input matInput placeholder="pat@example.com" type="email" formControlName="email" required>
+          <mat-icon matSuffix>email</mat-icon>
           <mat-error *ngIf="email.invalid">Not a valid email</mat-error>
         </mat-form-field>
       </p>
@@ -27,6 +28,6 @@
   </div>
   <div mat-dialog-actions class="space-evenly">
     <button mat-button (click)="cancel()" cdkFocusInitial>Cancel</button>
-    <button mat-button (click)="confirm()" cdkFocusInitial>Confirm edit</button>
+    <button mat-button (click)="confirm()" cdkFocusInitial>Confirm</button>
   </div>
 </div>

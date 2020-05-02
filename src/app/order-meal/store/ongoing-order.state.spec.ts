@@ -6,8 +6,8 @@ import { SnackShowErrorService } from 'src/app/shared/components/consumables/sna
 import { AppState } from 'src/app/store/app.state';
 
 import { CompleteOrderService } from '../services/complete-order.service';
-import { OngoingOrderState } from './ongoing-order.actions';
-import { ConfirmOrder, OrderDeclined, OrderSuccess, SetRestaurant } from './ongoing-order.state';
+import { OngoingOrderState } from './ongoing-order.state';
+import { ConfirmOrder, OrderDeclined, OrderSuccess, SetRestaurant } from './ongoing-order.actions';
 
 class CompleteOrderServiceMock {
   post(...params): Observable<any> {

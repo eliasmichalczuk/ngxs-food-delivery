@@ -19,6 +19,8 @@ import { NgxsModuleOptions } from '@ngxs/store';
 import { LogRestaurantPluginModule } from './plugins/log-restaurant-selected.plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { CreateAccountModalModule } from './shared/components/create-account-modal/create-account-modal.module';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+
 
 export const ngxsConfig: NgxsModuleOptions = {
   developmentMode: true,
@@ -48,6 +50,7 @@ export const ngxsConfig: NgxsModuleOptions = {
     CreateAccountModalModule,
     MatButtonModule,
     MatIconModule,
+    NgxsStoragePluginModule.forRoot(),
     LogRestaurantPluginModule.forRoot({}),
     NgxsFormPluginModule.forRoot(),
     NgxsModule.forRoot([

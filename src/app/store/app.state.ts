@@ -46,7 +46,8 @@ const APP_STATE_TOKEN = new StateToken<AppStateModel>('app');
 @Injectable()
 export class AppState {
 
-  @Action(SetPlace) setPlace(ctx: StateContext<AppStateModel>, { payload }: SetPlace) {
+  @Action(SetPlace)
+  setPlace(ctx: StateContext<AppStateModel>, { payload }: SetPlace) {
     ctx.setState({
       ...ctx.getState(),
       place: {
@@ -57,7 +58,8 @@ export class AppState {
     });
   }
 
-  @Action(OrderPending) OrderPending(ctx: StateContext<AppStateModel>, { orderId }: OrderSuccess) {
+  @Action(OrderPending)
+  OrderPending(ctx: StateContext<AppStateModel>, { orderId }: OrderSuccess) {
     ctx.setState({
       ...ctx.getState(),
       lastOrder: {
@@ -67,7 +69,8 @@ export class AppState {
     });
   }
 
-  @Action(OrderSuccess) OrderSuccess(ctx: StateContext<AppStateModel>) {
+  @Action(OrderSuccess)
+  OrderSuccess(ctx: StateContext<AppStateModel>) {
     const state = ctx.getState();
     ctx.setState({
       ...state,
@@ -78,7 +81,8 @@ export class AppState {
     });
   }
 
-  @Action(OrderDeclined) OrderDeclined(ctx: StateContext<AppStateModel>) {
+  @Action(OrderDeclined)
+  OrderDeclined(ctx: StateContext<AppStateModel>) {
     const state = ctx.getState();
     ctx.setState({
       ...state,
