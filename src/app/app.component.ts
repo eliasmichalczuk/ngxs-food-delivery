@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
@@ -16,7 +15,6 @@ export class AppComponent {
 
   @Select(state => state.user) user$: Observable<User>;
   constructor(
-    router: Router,
     public dialog: MatDialog
   ) { }
 

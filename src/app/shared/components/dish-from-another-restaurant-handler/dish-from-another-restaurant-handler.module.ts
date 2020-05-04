@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [DishFromAnotherRestaurantHandlerComponent],
   imports: [
+    MatButtonModule,
     CommonModule,
     MatDialogModule,
     MatFormFieldModule,
@@ -22,7 +23,6 @@ import { MatButtonModule } from '@angular/material/button';
     NgxsFormPluginModule,
     FormsModule,
     ReactiveFormsModule,
-    MatButtonModule
   ],
   exports: [DishFromAnotherRestaurantHandlerComponent]
 })

@@ -1,7 +1,7 @@
 {
   "restaurants": [
     {
-      "id": "1234556789",
+      "id": "vila-lanches-id",
       "name": "Vila lanches",
       "address": {
         "street": "Rua Garçálias",
@@ -19,7 +19,7 @@
       }
     },
     {
-      "id": "55566233",
+      "id": "comida-alema-id",
       "name": "Comida alemã",
       "address": {
         "street": "Rua Azul",
@@ -39,11 +39,11 @@
   ],
   "menus": [
     {
-      "id": "22312323",
-      "restaurantId": "1234556789",
+      "id": "menu-vila-lanches-id",
+      "restaurantId": "vila-lanches-id",
       "dishes": [
         {
-          "id": "312321323",
+          "id": "vila-id-1",
           "name": "Hot Dogão",
           "description": "Cachorro-quente com molho de tomate feito no dia, bacon, milho, ervilha, mostarda e pão.",
           "price": "1300",
@@ -51,7 +51,7 @@
           "image": "https://abrilexame.files.wordpress.com/2017/06/cachorros-quentes-da-burger-king.png?w=1024"
         },
         {
-          "id": "333343324234241232",
+          "id": "vila-id-2",
           "name": "Hamburguer Topzero",
           "description": "Hamburguer de boi generoso, com barbecue, alface, tomate e queijo.",
           "price": "1500",
@@ -59,7 +59,7 @@
           "image": "https://i0.statig.com.br/bancodeimagens/1p/4k/jy/1p4kjywyaecncpyftetcsisq8.jpg"
         },
         {
-          "id": "666453434634322234",
+          "id": "vila-id-3",
           "name": "1 KG - Porção de batata frita",
           "description": "1 KG de batata frita deliciosa.",
           "price": "1800",
@@ -67,7 +67,7 @@
           "image": "https://img.stpu.com.br/?img=https://s3.amazonaws.com/pu-mgr/default/a0R0f00000xt4HOEAY/5dd3e201e4b0462048a5da34.jpg&w=710&h=462"
         },
         {
-          "id": "34534535666",
+          "id": "vila-id-4",
           "name": "Hamburguer Topzero",
           "description": "Hamburguer de carne bovina com barbecue, alface, tomate e queijo",
           "price": "1500",
@@ -75,7 +75,7 @@
           "image": "https://i0.statig.com.br/bancodeimagens/1p/4k/jy/1p4kjywyaecncpyftetcsisq8.jpg"
         },
         {
-          "id": "33334123233443543534624",
+          "id": "vila-id-5",
           "name": "1 KG - Porção de batata frita",
           "description": "1 KG de batata frita deliciosa.",
           "price": "1800",
@@ -85,11 +85,11 @@
       ]
     },
     {
-      "id": "1232444",
-      "restaurantId": "55566233",
+      "id": "menu-comida-alema-id",
+      "restaurantId": "comida-alema-id",
       "dishes": [
         {
-          "id": "62342366666",
+          "id": "comida-alema-id-1",
           "name": "Hot Dogão",
           "description": "Cachorro quente com molho de tomate feito no dia, bacon, milho, ervilha, mostarda e pão.",
           "price": "1300",
@@ -97,7 +97,7 @@
           "image": "https://abrilexame.files.wordpress.com/2017/06/cachorros-quentes-da-burger-king.png?w=1024"
         },
         {
-          "id": "3333412323342",
+          "id": "comida-alema-id-2",
           "name": "Hamburguer Topzero",
           "description": "Hamburguer de carne bovina com barbecue, alface, tomate e queijo",
           "price": "1500",
@@ -105,7 +105,7 @@
           "image": "https://i0.statig.com.br/bancodeimagens/1p/4k/jy/1p4kjywyaecncpyftetcsisq8.jpg"
         },
         {
-          "id": "333341232334466",
+          "id": "comida-alema-id-3",
           "name": "1 Kg - Porção de batata frita",
           "description": "1 KG de batata frita deliciosa.",
           "price": "1800",

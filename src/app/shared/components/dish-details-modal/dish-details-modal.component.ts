@@ -15,13 +15,13 @@ export class DishDetailsModalComponent implements OnInit {
   quantity = 1;
   constructor(
     public dialogRef: MatDialogRef<DishDetailsModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {item: Dish, restaurantId: string} | ItemOnBag,
+    @Inject(MAT_DIALOG_DATA) public data: {item: Dish | ItemOnBag, restaurantId: string},
     private store: Store
   ) {
       // tslint:disable-next-line:no-string-literal
-    if (this.data['quantity']) {
+    if (this.data.item['quantity']) {
       // tslint:disable-next-line:no-string-literal
-      this.quantity = this.data['quantity'];
+      this.quantity = data.item['quantity'];
     }
   }
 
@@ -44,16 +44,16 @@ export class DishDetailsModalComponent implements OnInit {
 
   confirm() {
     // tslint:disable-next-line:no-string-literal
-    if (this.data['bagId']) {
-      const castedItem = this.data as ItemOnBag;
+    if (this.data.item['bagId']) {
+      const castedItem = this.data.item as ItemOnBag;
       this.store.dispatch([new ItemOnBagEdited(castedItem.id, castedItem.bagId, this.quantity)]);
     } else {
-      const castedItem = this.data as {item: Dish, restaurantId: string};
+      const castedItem = this.data.item as Dish;
       this.store.dispatch([
         new AddItemToBag(
-          new ItemOnBag(castedItem.item.id, castedItem.item.name,
-            castedItem.item.description, castedItem.item.price,
-            castedItem.item.currency, this.quantity), castedItem.restaurantId
+          new ItemOnBag(castedItem.id, castedItem.name,
+            castedItem.description, castedItem.price,
+            castedItem.currency, this.quantity), this.data.restaurantId
         )
       ]);
     }

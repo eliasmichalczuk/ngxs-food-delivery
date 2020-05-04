@@ -1,12 +1,9 @@
-import { EmptyBag, AddItemToBag } from './../../../order-meal/store/ongoing-order.actions';
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CreateAccountModalComponent } from '../create-account-modal/create-account-modal.component';
-import { Dish } from 'src/app/entities/dish';
-import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { UserRegistered } from 'src/app/store/user.actions';
+import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
+
+import { AddItemToBag, EmptyBag } from './../../../order-meal/store/ongoing-order.actions';
 
 @Component({
   selector: 'app-dish-from-another-restaurant-handler',
@@ -16,8 +13,8 @@ import { UserRegistered } from 'src/app/store/user.actions';
 export class DishFromAnotherRestaurantHandlerComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<CreateAccountModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {restaurantId: string, payload: ItemOnBag},
+    public dialogRef: MatDialogRef<DishFromAnotherRestaurantHandlerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { restaurantId: string, payload: ItemOnBag },
     private store: Store,
   ) {
   }

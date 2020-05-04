@@ -1,25 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext, StateToken, Store, createSelector } from '@ngxs/store';
+import { MatDialog } from '@angular/material/dialog';
+import { Action, Selector, State, StateContext, StateToken, Store, ofAction, Actions, ofActionDispatched } from '@ngxs/store';
+import { patch, removeItem, updateItem } from '@ngxs/store/operators';
+import { delay, retryWhen, take, takeUntil } from 'rxjs/operators';
 import { CompleteOrderDto } from 'src/app/entities/complete-order';
 import { ItemOnBag } from 'src/app/order-meal/entities/item-on-bag';
+import { RestaurantGetByIdService } from 'src/app/services/restaurant-get-by-id.service';
 import { SnackShowErrorService } from 'src/app/shared/components/consumables/snack-show-error/snack-show-error.service';
-import { patch, append, removeItem, insertItem, updateItem } from '@ngxs/store/operators';
+import { UserStateModel } from 'src/app/store/user.state';
+
 import { CompleteOrderService } from '../services/complete-order.service';
+import {
+  DishFromAnotherRestaurantHandlerComponent,
+} from './../../shared/components/dish-from-another-restaurant-handler/dish-from-another-restaurant-handler.component';
 import {
   AddItemToBag,
   ConfirmOrder,
   EditItemOnBag,
+  EmptyBag,
   ItemOnBagEdited,
   OrderDeclined as OrderDeclined,
   OrderPending,
   OrderSuccess,
   RemoveItemFromBag,
   SetRestaurant,
-  EmptyBag,
   ViewRestaurant,
 } from './ongoing-order.actions';
-import { MatDialog } from '@angular/material/dialog';
-import { DishDetailsModalComponent } from 'src/app/shared/components/dish-details-modal/dish-details-modal.component';
 
 interface Dish {
   id: string;
@@ -52,7 +58,6 @@ export interface OngoingOrderModel {
     rating: number;
   };
   restaurantOnView: RestaurantOnView;
-  restaurantIdOfDishesFromOrder: string;
   dishes?: Dish[];
 }
 
@@ -79,7 +84,6 @@ const APP_STATE_TOKEN = new StateToken<OngoingOrderModel>('ongoingOrder');
       name: '',
       id: ''
     },
-    restaurantIdOfDishesFromOrder: '',
     dishes: []
   }
 })
@@ -87,10 +91,12 @@ const APP_STATE_TOKEN = new StateToken<OngoingOrderModel>('ongoingOrder');
 export class OngoingOrderState {
 
   constructor(
+    public dialog: MatDialog,
     private confirmOrderService: CompleteOrderService,
+    private restaurantGetById: RestaurantGetByIdService,
     private store: Store,
     private handler: SnackShowErrorService,
-    public dialog: MatDialog
+    private actions: Actions
   ) { }
 
   @Selector()
@@ -103,12 +109,6 @@ export class OngoingOrderState {
     return state.status;
   }
 
-  // static dishesSubTotal() {
-  //   return createSelector([OngoingOrderState], (state: OngoingOrderModel) => {
-  //     return state.dishes.map(item => item.price * item.quantity)
-  //       .reduce((itemTotal, nextItemTotal) => itemTotal + nextItemTotal, 0);
-  //   });
-  // }
   @Selector()
   static dishesSubTotal(state: OngoingOrderModel) {
     if (!state) {
@@ -129,7 +129,7 @@ export class OngoingOrderState {
   }
 
   @Action(SetRestaurant)
-  SetRestaurant(ctx: StateContext<OngoingOrderModel>, { payload }: SetRestaurant) {
+  setRestaurant(ctx: StateContext<OngoingOrderModel>, { payload }: SetRestaurant) {
     const state = ctx.getState();
     if (state.dishes.length) {
       throw new Error('There are items on bag, cannot set a new restaurant');
@@ -146,28 +146,28 @@ export class OngoingOrderState {
   viewRestaurant(ctx: StateContext<OngoingOrderModel>, { payload }: ViewRestaurant) {
     ctx.setState(
       patch({
-        restaurantOnView: {id: payload.id, name: payload.name}
+        restaurantOnView: { id: payload.id, name: payload.name }
       })
     );
   }
 
   @Action(AddItemToBag)
-  AddItemToBag(ctx: StateContext<OngoingOrderModel>, { payload, restaurantId }: AddItemToBag) {
+  addItemToBag(ctx: StateContext<OngoingOrderModel>, { payload, restaurantId }: AddItemToBag) {
     const i = payload;
     const state = ctx.getState();
-    if (state.restaurantIdOfDishesFromOrder && state.restaurantIdOfDishesFromOrder !== restaurantId) {
-      this.dialog.open(DishDetailsModalComponent, {
-        width: '600px',
-        height: '700px',
-        data: {restaurantId, payload}
+    if (state.restaurant && state.restaurant.id !== restaurantId) {
+      return this.dialog.open(DishFromAnotherRestaurantHandlerComponent, {
+        width: '400px',
+        height: '300px',
+        data: { restaurantId, payload }
       });
     }
     ctx.setState({
       ...state,
-      restaurantIdOfDishesFromOrder: restaurantId,
       dishes: [
         ...state.dishes,
-        { id: i.id,
+        {
+          id: i.id,
           name: i.name,
           description: i.description,
           price: i.price,
@@ -181,16 +181,7 @@ export class OngoingOrderState {
   }
 
   @Action(RemoveItemFromBag)
-  RemoveItemFromBag(ctx: StateContext<OngoingOrderModel>, { payload }: RemoveItemFromBag) {
-    // const items = ctx.getState().dishes;
-    // items.splice(
-    //   items.findIndex(item => item.id === payload.id && item.bagId === payload.bagId), 1);
-    // ctx.setState({
-    //   ...ctx.getState(),
-    //   dishes: [
-    //     ...items
-    //   ]
-    // });
+  removeItemFromBag(ctx: StateContext<OngoingOrderModel>, { payload }: RemoveItemFromBag) {
     ctx.setState(
       patch({
         dishes: removeItem<any>(item => item.id === payload.id && item.bagId === payload.bagId)
@@ -199,46 +190,48 @@ export class OngoingOrderState {
   }
 
   @Action(EditItemOnBag)
-  EditItemOnBag(ctx: StateContext<OngoingOrderModel>, { payload }: EditItemOnBag) {
-    // const items = ctx.getState().dishes;
-    // items[items.findIndex(item => item.id === payload.id && item.bagId === payload.bagId)].calledToBeEdited = true;
-    // ctx.patchState({dishes: [...items]});
+  editItemOnBag(ctx: StateContext<OngoingOrderModel>, { payload }: EditItemOnBag) {
     ctx.setState(
       patch({
         dishes: updateItem<any>(dish => dish.id === payload.id && dish.bagId === payload.bagId,
-          patch({calledToBeEdited: true}))
+          patch({ calledToBeEdited: true }))
       })
     );
   }
 
   @Action(ItemOnBagEdited)
-  ItemOnBagEdited(ctx: StateContext<OngoingOrderModel>, edited: ItemOnBagEdited) {
+  itemOnBagEdited(ctx: StateContext<OngoingOrderModel>, edited: ItemOnBagEdited) {
     ctx.setState(
       patch({
         dishes: updateItem<any>(dish => dish.id === edited.itemId && dish.bagId === edited.bagId,
-          patch({calledToBeEdited: false, quantity: edited.quantity}))
+          patch({ calledToBeEdited: false, quantity: edited.quantity }))
       })
     );
   }
 
   @Action(EmptyBag)
-  emptyBag(ctx: StateContext<OngoingOrderModel>, { newSelectedRestaurant }: EmptyBag) {
+  async emptyBag(ctx: StateContext<OngoingOrderModel>, { newSelectedRestaurant }: EmptyBag) {
     ctx.setState({
       ...ctx.getState(),
-      restaurantIdOfDishesFromOrder: newSelectedRestaurant,
       dishes: []
     });
+    const restaurant =
+      await this.restaurantGetById.get(newSelectedRestaurant)
+        .pipe(retryWhen(err => err.pipe(take(2), delay(1500)))).toPromise();
+    return this.store.dispatch([new SetRestaurant(restaurant)]);
   }
 
   @Action(ConfirmOrder)
-  ConfirmOrder(ctx: StateContext<OngoingOrderModel>) {
-    ctx.patchState({status: 'PENDING'});
+  confirmOrder(ctx: StateContext<OngoingOrderModel>) {
+    ctx.patchState({ status: 'PENDING' });
     const state = ctx.getState();
     const dishes = state.dishes;
     const orderId = state.id;
-    const userId = this.store.selectSnapshot<any>(global => global.app.user.name);
+    // const userId = this.store.selectSnapshot<UserStateModel>(global => global.user.name).name;
+    const userId = '123';
     ctx.dispatch([new OrderPending(state.id)]);
     this.confirmOrderService.post(new CompleteOrderDto(userId, dishes as any))
+      .pipe(takeUntil(this.actions.pipe(ofActionDispatched(ConfirmOrder))))
       .subscribe(() => ctx.dispatch(new OrderSuccess(orderId)),
         err => {
           this.handler.error(err);
@@ -247,12 +240,12 @@ export class OngoingOrderState {
   }
 
   @Action(OrderSuccess)
-  OrderSuccess({ patchState }: StateContext<OngoingOrderModel>) {
-    patchState({status: 'SUCCESS'});
+  orderSuccess({ patchState }: StateContext<OngoingOrderModel>) {
+    patchState({ status: 'SUCCESS' });
   }
 
   @Action(OrderDeclined)
-  OrderDeclined({ patchState }: StateContext<OngoingOrderModel>) {
-    patchState({status: 'DECLINED'});
+  orderDeclined({ patchState }: StateContext<OngoingOrderModel>) {
+    patchState({ status: 'DECLINED' });
   }
 }

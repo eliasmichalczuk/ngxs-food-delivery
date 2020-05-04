@@ -1,3 +1,4 @@
+import { RestaurantGetByIdService } from './../services/restaurant-get-by-id.service';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -53,7 +54,8 @@ import { ViewRestaurantComponent } from './view-restaurant/view-restaurant.compo
     OrderMealStepperServiceService,
     GetAllRestaurantService,
     GetMenuByRestauranteIdService,
-    CompleteOrderService
+    CompleteOrderService,
+    RestaurantGetByIdService
   ]
 })
 export class OrderMealModule { }

@@ -20,7 +20,7 @@ export class CompleteOrderService {
       } else {
         return new HttpResponse({status: 200, statusText: 'OK!'});
       }
-    }), delay(Math.random() * 2500 * 1.1));
+    }), delay(Math.random() * 500 * 1.1));
   }
 
   private cardDeclined() {

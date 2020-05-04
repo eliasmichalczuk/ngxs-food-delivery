@@ -20,8 +20,6 @@ export class BagComponent implements OnInit {
   @Select(state => state.ongoingOrder.restaurant) restaurant$: Observable<Restaurant>;
   @Select(OngoingOrderState.status) status$: Observable<string>;
   @Select(state => state.ongoingOrder.dishes) dishes$: Observable<ItemOnBag[]>;
-  // dishesTotal$: Observable<number>;
-  // deliveryFee$: Observable<number>;
   @Select(OngoingOrderState.deliveryFee) deliveryFee$: Observable<number>;
   @Select(OngoingOrderState.dishesSubTotal) dishesSubtotal$: Observable<number>;
   @Select(OngoingOrderState.orderTotal) dishesTotal$: Observable<number>;
@@ -33,8 +31,6 @@ export class BagComponent implements OnInit {
 
   ngOnInit(): void {
     this.currency();
-    // this.dishesSubtotal();
-    // this.sumOrderTotalPrice();
   }
 
   edit(item: ItemOnBag) {
@@ -68,7 +64,6 @@ export class BagComponent implements OnInit {
   }
 
   currency() {
-    // this.deliveryFee$ = this.dishesSubtotal$.pipe(map(total => total * 0.1 + 2000));
     this.currency$ = this.dishes$.pipe(map(items => items[0].currency));
   }
 
